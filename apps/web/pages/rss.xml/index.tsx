@@ -63,7 +63,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     id: process.env.NEXT_PUBLIC_DEFAULT_BLOG_ID,
     link: process.env.NEXT_PUBLIC_SITE_URL,
     language: 'en',
-    image: new URL('/logo.svg', process.env.NEXT_PUBLIC_SITE_URL).href,
+    image: new URL('/images/logo.svg', process.env.NEXT_PUBLIC_SITE_URL).href,
     favicon: new URL('/favicon.ico', process.env.NEXT_PUBLIC_SITE_URL).href,
     copyright: `© 2016-
     ${new Date().getFullYear()} ${process.env.NEXT_PUBLIC_DEFAULT_BLOG_NAME}. CC-BY 4.0`,

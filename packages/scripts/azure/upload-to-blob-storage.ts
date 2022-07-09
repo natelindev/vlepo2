@@ -40,7 +40,7 @@ export const uploadToBlobStorage = async (
     const files = await fs.readdir(dir);
     for (const file of files) {
       const filePath = `${dir}/${file}`;
-      const trimmedFilePath = `${prefix}${prefix ? '/' : ''}${filePath.replace(
+      const trimmedFilePath = `${prefix ?? ''}${prefix ? '/' : ''}${filePath.replace(
         `${targetFileLocation}/`,
         '',
       )}`;

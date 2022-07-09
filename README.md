@@ -16,8 +16,8 @@ Create modern clean looking blog with ease.
 ## Features
 
 - MDX powered blog content, allowing interactive content creation.
-- Fully IAC with azure.
-- SSR with Next.js and CDN acceptation for all static assets.
+- Fully IAC with azure and terraform.
+- SSR with Next.js and CDN acceleration for all static assets.
 - Persisted Graphql API calls, efficient and secure client/server communication.
 - Fully containerized, easy deploy to any environment with ease.
 - Easy images upload, optimization with local preview and easy markdown insert.

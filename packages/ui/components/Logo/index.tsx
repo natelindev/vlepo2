@@ -13,7 +13,7 @@ export const BaseLogo = styled(x.img)<BaseLogoProps>`
 
 type LogoProps = React.ComponentProps<typeof BaseLogo>;
 const Logo = (props: LogoProps) => {
-  const { size = '32px', src = '/logo.svg', ...rest } = props;
+  const { size = '32px', src = '/images/logo.svg', ...rest } = props;
   return <BaseLogo src={src} alt="logo" size={size} {...rest} />;
 };
 

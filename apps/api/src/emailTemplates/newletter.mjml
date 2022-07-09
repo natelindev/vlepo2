@@ -11,7 +11,7 @@
   <mj-body background-color="#000000">
     <mj-section padding="30px 0 20px 0">
       <mj-column width="50px">
-        <mj-image width="50px" height="50px" padding="20px 0 10px 0" alt="logo" href="https://blog.nate-lin.com" src="https://blog.nate-lin.com/logo.svg"></mj-image>
+        <mj-image width="50px" height="50px" padding="20px 0 10px 0" alt="logo" href="https://blog.nate-lin.com" src="https://blog.nate-lin.com/images/logo.svg"></mj-image>
       </mj-column>
       <mj-column width="500px">
         <mj-text font-family="poppins" font-size="48px" color="#e5e6eb" font-weight="300" padding="0px 25px">Nathaniel's latest Posts</mj-text>
@@ -27,7 +27,7 @@
         </mj-raw>
         <mj-text font-size="14px" line-height="22px" font-weight="300" padding="0px 25px" color="#bbbbbb" font-family="Roboto">
           <multiline>Hi [user],<br /><br />
-            Welcome to Nathaniel's Lab, here you can see latest posts of mine.
+            Welcome to Nathaniel's blog, here you can see latest posts of mine.
         </mj-text>
       </mj-column>
     </mj-section>
@@ -73,7 +73,7 @@
         <mj-text padding="0px 25px" font-size="12px" font-weight="300" line-height="30px" align="center" color="#bbbbbb"><a href="https://telegram.me/llldar"><img src="https://vlepo-fd.azurefd.net/images/telegram.png" width="25" height="25" style="width: 25px; height: 25px;" /></a>&nbsp;&nbsp;
           <a href="https://github.com/natelindev"><img src="https://vlepo-fd.azurefd.net/images/github.png" width="25" height="25" style="width: 25px; height: 25px;" /></a>&nbsp;&nbsp;</mj-text>
         <mj-text font-family="Roboto" font-size="12px" line-height="20px" font-weight="300" align="center" color="#bbbbbb">
-          <multiline>© 2016-2021 Nathaniel's Lab.<br>
+          <multiline>© 2016-2021 Nathaniel's blog.<br>
             <multiline>Made by Nathaniel with ❤️ and effort<br>
               <a href="https://blog.nate-lin.com/unsubscribe" style="color: #bbbbbb;">Unsubscribe</unsubscribe>
         </mj-text>
