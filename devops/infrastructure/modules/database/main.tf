@@ -53,9 +53,10 @@ data "azurerm_linux_web_app" "api" {
 }
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "api" {
-  name             = "db-api-fw"
+  for_each         = toset(data.azurerm_linux_web_app.api.outbound_ip_address_list)
+  name             = "db-api-fw-${replace(each.key, ".", "-")}"
   server_id        = azurerm_postgresql_flexible_server.vlepo_psql_flex_server.id
-  start_ip_address = data.azurerm_linux_web_app.api.outbound_ip_address_list[0]
-  end_ip_address   = data.azurerm_linux_web_app.api.outbound_ip_address_list[0]
+  start_ip_address = each.value
+  end_ip_address   = each.value
 }
 
