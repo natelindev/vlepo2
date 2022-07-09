@@ -135,7 +135,7 @@ resource "azurerm_frontdoor" "vlepofd" {
 
   frontend_endpoint {
     name      = "vlepoFrontendEndpointCustom"
-    host_name = "cdn.nate-lin.com"
+    host_name = "blog.nate-lin.com"
   }
 }
 
