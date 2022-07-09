@@ -45,7 +45,7 @@ function Model(props: ModelProps) {
   const { open, hinge, ...rest } = props;
   const group = useRef<THREE.Group>(null);
   const group2 = useRef<THREE.Group>(null);
-  const { nodes, materials } = useGLTF('/m1mac.glb') as GLTFResult;
+  const { nodes, materials } = useGLTF('/models/m1mac.glb') as GLTFResult;
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (
@@ -163,5 +163,5 @@ function Model(props: ModelProps) {
   );
 }
 
-useGLTF.preload('/m1mac.glb');
+useGLTF.preload('/models/m1mac.glb');
 export default Model;

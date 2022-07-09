@@ -23,7 +23,7 @@ const Model = (props: ModelProps) => {
   const { open, hinge, ...rest } = props;
   const group = useRef<THREE.Group | null>(null);
   // Load model
-  const { nodes, materials } = useGLTF('/m1mac.glb') as GLTFResult;
+  const { nodes, materials } = useGLTF('/models/m1mac.glb') as GLTFResult;
   // Take care of cursor state on hover
   const [hovered, setHovered] = useState(false);
   useEffect(() => {
@@ -101,5 +101,5 @@ const Model = (props: ModelProps) => {
   );
 };
 
-useGLTF.preload('/mac.glb');
+useGLTF.preload('/models/mac.glb');
 export default Model;

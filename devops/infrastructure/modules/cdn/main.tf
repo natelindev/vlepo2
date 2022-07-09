@@ -32,8 +32,11 @@ resource "azurerm_frontdoor" "vlepofd" {
     patterns_to_match  = ["/images/*", "/models/*", "/user-images/*", "/next/*"]
     frontend_endpoints = ["vlepoFrontendEndpointDefault", "vlepoFrontendEndpointCustom"]
     forwarding_configuration {
-      forwarding_protocol = "HttpsOnly"
-      backend_pool_name   = "vlepoBackendPoolStatic"
+      forwarding_protocol           = "HttpsOnly"
+      backend_pool_name             = "vlepoBackendPoolStatic"
+      cache_enabled                 = true
+      cache_duration                = "P7D"
+      cache_use_dynamic_compression = true
     }
   }
 
