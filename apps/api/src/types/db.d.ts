@@ -1,0 +1,18 @@
+export type {
+  Blog as DBBlog,
+  Comment as DBComment,
+  Design as DBDesign,
+  Image as DBImage,
+  Link as DBLink,
+  Paper as DBPaper,
+  Post as DBPost,
+  Project as DBProject,
+  Rating as DBRating,
+  Reaction as DBReaction,
+  Share as DBShare,
+  Tag as DBTag,
+  Thought as DBThought,
+  Translation as DBTranslation,
+  User as DBUser,
+  UserRole as DBUserRole,
+} from '@prisma/client';

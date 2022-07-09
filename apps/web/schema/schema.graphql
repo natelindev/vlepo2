@@ -1,0 +1,829 @@
+type Blog implements Node {
+  createdAt: DateTime!
+  designsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): BlogDesignsConnection!
+  id: ID!
+  name: String
+  owner: User!
+  papersConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): BlogPapersConnection!
+  postCommentCount: Int!
+  postReactionCount: Int!
+  postViewCount: Int!
+  postsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): BlogPostsConnection!
+  projectsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): BlogProjectsConnection!
+  tagsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): BlogTagsConnection!
+  thoughtsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): BlogThoughtsConnection!
+  updatedAt: DateTime!
+  userCount: Int!
+  visitorCount: Int!
+}
+
+type BlogDesignsConnection {
+  edges: [BlogDesignsConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type BlogDesignsConnectionEdge {
+  cursor: String!
+  node: Design!
+}
+
+type BlogPapersConnection {
+  edges: [BlogPapersConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type BlogPapersConnectionEdge {
+  cursor: String!
+  node: Paper!
+}
+
+type BlogPostsConnection {
+  edges: [BlogPostsConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type BlogPostsConnectionEdge {
+  cursor: String!
+  node: Post!
+}
+
+type BlogProjectsConnection {
+  edges: [BlogProjectsConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type BlogProjectsConnectionEdge {
+  cursor: String!
+  node: Project!
+}
+
+type BlogTagsConnection {
+  edges: [BlogTagsConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type BlogTagsConnectionEdge {
+  cursor: String!
+  node: Tag!
+}
+
+type BlogThoughtsConnection {
+  edges: [BlogThoughtsConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type BlogThoughtsConnectionEdge {
+  cursor: String!
+  node: Thought!
+}
+
+interface Commendable {
+  commentsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): CommentsConnection!
+}
+
+type Comment implements Node {
+  childCommentsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): CommentChildCommentsConnection!
+  content: String!
+  createdAt: DateTime!
+  editedAt: DateTime
+  id: ID!
+  imagesConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): CommentImagesConnection!
+  language: Language!
+  owner: User!
+  parent: Comment!
+  post: Post!
+  renderedContent: String!
+  thought: Thought!
+  updatedAt: DateTime!
+}
+
+type CommentChildCommentsConnection {
+  edges: [CommentChildCommentsConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CommentChildCommentsConnectionEdge {
+  cursor: String!
+  node: Comment!
+}
+
+type CommentEdge {
+  cursor: String!
+  node: Comment!
+}
+
+type CommentImagesConnection {
+  edges: [CommentImagesConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CommentImagesConnectionEdge {
+  cursor: String!
+  node: Image!
+}
+
+type CommentsConnection {
+  edges: [CommentEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CommentsEdge {
+  cursor: String!
+  node: Comment!
+}
+
+input CreateCommentInput {
+  content: String!
+  parentId: ID!
+}
+
+type CreateCommentPayload {
+  createCommentEdge: CommentEdge!
+}
+
+type CreateImagePayload {
+  createImageEdge: ImageEdge!
+}
+
+input CreatePostInput {
+  content: String!
+  headerImageId: String
+  images: [createImageInput!]
+  tags: [createTagInput!]
+  title: String!
+  visibility: Visibility!
+}
+
+type CreatePostPayload {
+  createPostEdge: PostEdge!
+}
+
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+type Design implements Commendable & Node & Ratable & Reactable & Sharable & Taggable {
+  commentsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): CommentsConnection!
+  content: String!
+  createdAt: DateTime!
+  editedAt: DateTime
+  headerImageUrl: String
+  id: ID!
+  imagesConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): DesignImagesConnection!
+  owner: User!
+  ratingsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): RatingsConnection!
+  reactionsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): ReactionsConnection!
+  renderedContent: String!
+  sharesConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): SharesConnection!
+  tagsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): TagsConnection!
+  updatedAt: DateTime!
+  visibility: Visibility!
+}
+
+type DesignImagesConnection {
+  edges: [DesignImagesConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type DesignImagesConnectionEdge {
+  cursor: String!
+  node: Image!
+}
+
+type Image implements Node {
+  alt: String
+  createdAt: DateTime!
+  extension: String!
+  height: Int
+  id: ID!
+  mainColor: String
+  owner: User!
+  secondaryColor: String
+  updatedAt: DateTime!
+  url: String
+  width: Int
+}
+
+type ImageEdge {
+  cursor: String!
+  node: Image!
+}
+
+enum Language {
+  en
+  zh
+}
+
+type Link implements Node {
+  createdAt: DateTime!
+  iconUrl: String
+  id: ID!
+  updatedAt: DateTime!
+  url: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type LoginPayload {
+  error: String
+  ok: Boolean!
+}
+
+type Mutation {
+  createComment(input: CreateCommentInput!): CreateCommentPayload!
+  createImage(input: createImageInput!): CreateImagePayload!
+  createPost(input: CreatePostInput!): CreatePostPayload!
+  login(input: LoginInput!): LoginPayload!
+  subscribe(input: MutationSubscribeInput!): Boolean!
+  unsubscribe(input: MutationUnsubscribeInput!): Boolean!
+  viewPost(input: MutationViewPostInput!): Void
+}
+
+input MutationSubscribeInput {
+  blogId: String!
+  email: String!
+  firstName: String!
+}
+
+input MutationUnsubscribeInput {
+  email: String!
+}
+
+input MutationViewPostInput {
+  id: String
+  slug: String
+}
+
+interface Node {
+  id: ID!
+}
+
+input OrderBy {
+  key: String!
+  order: sortOrder
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
+type Paper implements Node & Ratable & Reactable & Taggable {
+  abstract: String
+  content: String!
+  createdAt: DateTime!
+  headerImageUrl: String
+  id: ID!
+  imagesConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): PaperImagesConnection!
+  name: String!
+  ratingsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): RatingsConnection!
+  reactionsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): ReactionsConnection!
+  renderedContent: String!
+  tagsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): TagsConnection!
+  updatedAt: DateTime!
+  url: String
+  visibility: Visibility!
+}
+
+type PaperImagesConnection {
+  edges: [PaperImagesConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type PaperImagesConnectionEdge {
+  cursor: String!
+  node: Image!
+}
+
+type Post implements Commendable & Node & Ratable & Reactable & Sharable & Taggable {
+  abstract: String
+  commentCount: Int!
+  commentsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): CommentsConnection!
+  content: String!
+  createdAt: DateTime!
+  editedAt: DateTime
+  headerImageUrl: String
+  id: ID!
+  imagesConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): PostImagesConnection!
+  minuteRead: Int
+  owner: User!
+  ratingsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): RatingsConnection!
+  reactionCount: Int!
+  reactionsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): ReactionsConnection!
+  renderedContent: String!
+  shares: [Share!]!
+  sharesConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): SharesConnection!
+  slug: String!
+  tagsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): TagsConnection!
+  title: String!
+  updatedAt: DateTime!
+  viewCount: Int!
+  visibility: Visibility!
+}
+
+type PostEdge {
+  cursor: String!
+  node: Post!
+}
+
+type PostImagesConnection {
+  edges: [PostImagesConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type PostImagesConnectionEdge {
+  cursor: String!
+  node: Image!
+}
+
+type Project implements Node & Ratable & Reactable & Taggable {
+  abstract: String
+  content: String!
+  createdAt: DateTime!
+  headerImageUrl: String
+  id: ID!
+  imagesConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): ProjectImagesConnection!
+  name: String!
+  ratingsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): RatingsConnection!
+  reactionsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): ReactionsConnection!
+  renderedContent: String!
+  tagsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): TagsConnection!
+  updatedAt: DateTime!
+  url: String
+  visibility: Visibility!
+}
+
+type ProjectImagesConnection {
+  edges: [ProjectImagesConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type ProjectImagesConnectionEdge {
+  cursor: String!
+  node: Image!
+}
+
+type Query {
+  blog(id: ID!): Blog
+  blogsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): QueryBlogsConnection!
+  comment(id: ID!): Comment
+  imageUploadURL: String!
+  imagesConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): QueryImagesConnection!
+  node(id: ID!): Node
+  nodes(ids: [ID!]!): [Node]!
+  post(id: ID, slug: String): Post
+  tagsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): QueryTagsConnection!
+  translation(targetId: ID!): Translation
+  translationConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): QueryTranslationConnection!
+  user(id: ID!): User
+  usersConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): QueryUsersConnection!
+  viewer: Viewer
+}
+
+type QueryBlogsConnection {
+  edges: [QueryBlogsConnectionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type QueryBlogsConnectionEdge {
+  cursor: String!
+  node: Blog!
+}
+
+type QueryImagesConnection {
+  edges: [QueryImagesConnectionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type QueryImagesConnectionEdge {
+  cursor: String!
+  node: Image!
+}
+
+type QueryTagsConnection {
+  edges: [QueryTagsConnectionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type QueryTagsConnectionEdge {
+  cursor: String!
+  node: Tag!
+}
+
+type QueryTranslationConnection {
+  edges: [QueryTranslationConnectionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type QueryTranslationConnectionEdge {
+  cursor: String!
+  node: Translation!
+}
+
+type QueryUsersConnection {
+  edges: [QueryUsersConnectionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type QueryUsersConnectionEdge {
+  cursor: String!
+  node: User!
+}
+
+interface Ratable {
+  ratingsConnection: RatingsConnection!
+}
+
+type Rating implements Node {
+  comment: String
+  createdAt: DateTime!
+  id: ID!
+  owner: User!
+  score: Int!
+  updatedAt: DateTime!
+}
+
+type RatingEdge {
+  cursor: String!
+  node: Rating!
+}
+
+type RatingsConnection {
+  edges: [RatingEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type RatingsEdge {
+  cursor: String!
+  node: Rating!
+}
+
+interface Reactable {
+  reactionsConnection: ReactionsConnection!
+}
+
+type Reaction implements Node {
+  createdAt: DateTime!
+  id: ID!
+  owner: User!
+  type: ReactionType!
+  updatedAt: DateTime!
+}
+
+type ReactionEdge {
+  cursor: String!
+  node: Reaction!
+}
+
+enum ReactionType {
+  ANGRY
+  CRAE
+  HAHA
+  LIKE
+  LOVE
+  SAD
+  WOW
+}
+
+type ReactionsConnection {
+  edges: [ReactionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type ReactionsEdge {
+  cursor: String!
+  node: Reaction!
+}
+
+interface Sharable {
+  sharesConnection: SharesConnection!
+}
+
+type Share implements Node {
+  createdAt: DateTime!
+  id: ID!
+  owner: User!
+  shareType: ShareType!
+  updatedAt: DateTime!
+}
+
+type ShareEdge {
+  cursor: String!
+  node: Share!
+}
+
+enum ShareType {
+  REDDIT
+  TELEGRAM
+  TWITTER
+}
+
+type SharesConnection {
+  edges: [ShareEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type SharesEdge {
+  cursor: String!
+  node: Share!
+}
+
+type Subscriber implements Node {
+  blog: Blog!
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  unsubscribedAt: DateTime
+  updatedAt: DateTime!
+}
+
+type Tag implements Node {
+  createdAt: DateTime!
+  designsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): TagDesignsConnection!
+  headerImageUrl: String
+  id: ID!
+  mainColor: String
+  name: String!
+  papersConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): TagPapersConnection!
+  projectsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): TagProjectsConnection!
+  secondaryColor: String
+  thoughtsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): TagThoughtsConnection!
+  updatedAt: DateTime!
+}
+
+type TagDesignsConnection {
+  edges: [TagDesignsConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type TagDesignsConnectionEdge {
+  cursor: String!
+  node: Design!
+}
+
+type TagEdge {
+  cursor: String!
+  node: Tag!
+}
+
+type TagPapersConnection {
+  edges: [TagPapersConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type TagPapersConnectionEdge {
+  cursor: String!
+  node: Paper!
+}
+
+type TagProjectsConnection {
+  edges: [TagProjectsConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type TagProjectsConnectionEdge {
+  cursor: String!
+  node: Project!
+}
+
+type TagThoughtsConnection {
+  edges: [TagThoughtsConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type TagThoughtsConnectionEdge {
+  cursor: String!
+  node: Thought!
+}
+
+interface Taggable {
+  tagsConnection: TagsConnection!
+}
+
+type TagsConnection {
+  edges: [TagEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type TagsEdge {
+  cursor: String!
+  node: Tag!
+}
+
+type Thought implements Commendable & Node & Reactable & Sharable & Taggable {
+  commentsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): CommentsConnection!
+  content: String!
+  createdAt: DateTime!
+  id: ID!
+  imagesConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): ThoughtImagesConnection!
+  reactionsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): ReactionsConnection!
+  renderedContent: String!
+  sharesConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): SharesConnection!
+  tagsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): TagsConnection!
+  updatedAt: DateTime!
+}
+
+type ThoughtImagesConnection {
+  edges: [ThoughtImagesConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type ThoughtImagesConnectionEdge {
+  cursor: String!
+  node: Image!
+}
+
+type Translation implements Node {
+  content: String!
+  createdAt: DateTime!
+  id: ID!
+  language: String!
+  renderedContent: String!
+  type: String!
+  updatedAt: DateTime!
+}
+
+type User implements Commendable & Node {
+  bio: String
+  commentsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): CommentsConnection!
+  createdAt: DateTime!
+  designsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): UserDesignsConnection!
+  email: String
+  id: ID!
+  imagesConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): UserImagesConnection!
+  name: String
+  papersConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): UserPapersConnection!
+  postsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): UserPostsConnection!
+  profileImageUrl: String
+  projectsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): UserProjectsConnection!
+  rolesConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): UserRolesConnection!
+  scopes: [String!]!
+  thoughtsConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): UserThoughtsConnection!
+  updatedAt: DateTime!
+  website: String
+}
+
+type UserDesignsConnection {
+  edges: [UserDesignsConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserDesignsConnectionEdge {
+  cursor: String!
+  node: Design!
+}
+
+type UserImagesConnection {
+  edges: [UserImagesConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserImagesConnectionEdge {
+  cursor: String!
+  node: Image!
+}
+
+type UserPapersConnection {
+  edges: [UserPapersConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserPapersConnectionEdge {
+  cursor: String!
+  node: Paper!
+}
+
+type UserPostsConnection {
+  edges: [UserPostsConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserPostsConnectionEdge {
+  cursor: String!
+  node: Post!
+}
+
+type UserProjectsConnection {
+  edges: [UserProjectsConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserProjectsConnectionEdge {
+  cursor: String!
+  node: Project!
+}
+
+type UserRole implements Node {
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  updatedAt: DateTime!
+  usersConnection(after: String, before: String, first: Int, last: Int, orderBy: [OrderBy!]): UserRoleUsersConnection!
+  value: String!
+}
+
+type UserRoleUsersConnection {
+  edges: [UserRoleUsersConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserRoleUsersConnectionEdge {
+  cursor: String!
+  node: User!
+}
+
+type UserRolesConnection {
+  edges: [UserRolesConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserRolesConnectionEdge {
+  cursor: String!
+  node: UserRole!
+}
+
+type UserThoughtsConnection {
+  edges: [UserThoughtsConnectionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserThoughtsConnectionEdge {
+  cursor: String!
+  node: Thought!
+}
+
+"""Current logged in user"""
+type Viewer {
+  user: User
+}
+
+enum Visibility {
+  DRAFT
+  PRIVATE
+  PUBLISHED
+}
+
+"""Represents NULL values"""
+scalar Void
+
+input createImageInput {
+  alt: String
+  extension: String!
+  height: Int
+  id: String!
+  postId: String
+  width: Int
+}
+
+input createTagInput {
+  headerImageId: String
+  mainColor: String
+  name: String!
+  secondaryColor: String
+}
+
+enum sortOrder {
+  asc
+  desc
+}

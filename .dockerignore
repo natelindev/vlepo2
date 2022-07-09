@@ -1,0 +1,17 @@
+yarn-error.log
+.dockerignore
+.git
+.gitignore
+.gitattributes
+.turbo
+scripts
+*Dockerfile*
+node_modules
+.env
+.vscode
+devops
+.markdownlint.json
+.nvmrc
+.yarnrc
+banner.svg
+*.md

@@ -1,0 +1,39 @@
+{
+  "name": "vlepo2",
+  "version": "2.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "apply": "./devops/scripts/apply.sh",
+    "bf": "turbo run build --force",
+    "build": "turbo run build",
+    "build:docker": "devops/docker/build-and-push-to-acr.sh",
+    "cdn:clean": "yarn ts-node -P ./packages/scripts/tsconfig.json --esm ./packages/scripts/index.ts azure/clean-blob-storage next",
+    "cdn:upload": "yarn ts-node -P ./packages/scripts/tsconfig.json --esm ./packages/scripts/index.ts azure/upload-to-blob-storage next apps/web/.next/static _next/static",
+    "clean": "turbo run clean",
+    "destroy": "./devops/scripts/destroy.sh",
+    "dev": "turbo run dev --parallel",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "generate": "turbo run generate --parallel",
+    "init": "./devops/scripts/init.sh",
+    "lint": "turbo run lint",
+    "plan": "./devops/scripts/plan.sh",
+    "start:docker": "docker-compose -f devops/docker/docker-compose.yml up",
+    "typecheck": "turbo run typecheck"
+  },
+  "devDependencies": {
+    "prettier": "2.7.1",
+    "prisma": "4.0.0",
+    "sort-package-json": "1.57.0",
+    "ts-node": "10.8.1",
+    "turbo": "1.3.1"
+  },
+  "packageManager": "yarn@1.22.19",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}

@@ -1,0 +1,534 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator pothos {
+  provider     = "prisma-pothos-types"
+  clientOutput = "@prisma/client"
+  output       = "../src/types/pothos-types.ts"
+}
+
+enum Language {
+  zh
+  en
+}
+
+enum TranslationType {
+  BLOG
+  POST_TITLE
+  POST_CONTENT
+  DESIGN
+  THOUGHT
+  TAG
+  USER
+  USER_BIO
+  USER_ROLE
+  PROJECT
+  PAPER
+}
+
+enum ShareType {
+  REDDIT
+  TWITTER
+  TELEGRAM
+}
+
+enum ReactionType {
+  LIKE
+  LOVE
+  CRAE
+  HAHA
+  WOW
+  SAD
+  ANGRY
+}
+
+enum OAuthProviders {
+  google
+  github
+  reddit
+  disqus
+}
+
+model Blog {
+  id   String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name String?
+
+  owner   User   @relation(fields: [ownerId], references: [id])
+  ownerId String @db.Uuid
+
+  visitorCount Int @default(0)
+
+  createdAt DateTime @default(dbgenerated("now()"))
+  updatedAt DateTime @default(dbgenerated("now()")) @updatedAt
+
+  posts       Post[]
+  thoughts    Thought[]
+  projects    Project[]
+  papers      Paper[]
+  tags        Tag[]
+  links       Link[]
+  designs     Design[]
+  subscribers Subscriber[]
+}
+
+model UserRole {
+  id    String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  value String @unique
+  name  String
+  users User[]
+
+  scopes    OAuthScope[]
+  createdAt DateTime     @default(dbgenerated("now()"))
+  updatedAt DateTime     @default(dbgenerated("now()")) @updatedAt
+}
+
+model User {
+  id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String?
+  password        String?
+  email           String?
+  website         String?
+  profileImageId  String? @db.Uuid
+  profileImageUrl String?
+  bio             String?
+
+  blogs     Blog[]
+  posts     Post[]
+  roles     UserRole[]
+  comments  Comment[]
+  images    Image[]
+  thoughts  Thought[]
+  designs   Design[]
+  papers    Paper[]
+  projects  Project[]
+  reactions Reaction[]
+  shares    Share[]
+  ratings   Rating[]
+  provider  OAuthProviders?
+  openid    String?
+  createdAt DateTime        @default(dbgenerated("now()"))
+  updatedAt DateTime        @default(dbgenerated("now()")) @updatedAt
+
+  accessTokens            OAuthAccessToken[]
+  refreshTokens           OAuthRefreshToken[]
+  OAuthClients            OAuthClient[]
+  OAuthAuthorizationCodes OAuthAuthorizationCode[]
+
+}
+
+model Post {
+  id             String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ownerId        String     @db.Uuid
+  content        String
+  visibility     Visibility @default(DRAFT)
+  title          String
+  slug           String     @unique
+  headerImageId  String?    @db.Uuid
+  headerImageUrl String?
+  owner          User       @relation(fields: [ownerId], references: [id])
+  comments       Comment[]
+  viewCount      Int        @default(0)
+
+  ratings    Rating[]
+  reactions  Reaction[]
+  minuteRead Int?
+  tags       Tag[]
+  images     Image[]
+  shares     Share[]
+  editedAt   DateTime?
+  createdAt  DateTime   @default(dbgenerated("now()"))
+  updatedAt  DateTime   @default(dbgenerated("now()")) @updatedAt
+  blog       Blog       @relation(fields: [blogId], references: [id])
+  blogId     String     @db.Uuid
+}
+
+enum Visibility {
+  DRAFT
+  PRIVATE
+  PUBLISHED
+
+  @@map("visibility")
+}
+
+model Tag {
+  id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name           String  @unique
+  headerImageId  String? @db.Uuid
+  headerImageUrl String?
+
+  mainColor      String?
+  secondaryColor String?
+
+  posts    Post[]
+  thoughts Thought[]
+  projects Project[]
+  papers   Paper[]
+  designs  Design[]
+  blog     Blog      @relation(fields: [blogId], references: [id])
+  blogId   String    @db.Uuid
+
+  createdAt DateTime @default(dbgenerated("now()"))
+  updatedAt DateTime @default(dbgenerated("now()")) @updatedAt
+}
+
+model Comment {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  owner         User      @relation(fields: [userId], references: [id])
+  userId        String    @db.Uuid
+  parent        Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
+  childComments Comment[] @relation("CommentToComment")
+  parentId      String?   @db.Uuid
+  content       String
+  thought       Thought?  @relation(fields: [thoughtId], references: [id])
+  thoughtId     String?   @db.Uuid
+  post          Post?     @relation(fields: [postId], references: [id])
+  postId        String?   @db.Uuid
+  design        Design?   @relation(fields: [designId], references: [id])
+  designId      String?   @db.Uuid
+  images        Image[]
+  language      Language
+  editedAt      DateTime?
+  createdAt     DateTime  @default(dbgenerated("now()"))
+  updatedAt     DateTime  @default(dbgenerated("now()")) @updatedAt
+}
+
+model Subscriber {
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  firstName      String
+  email          String    @unique
+  unsubscribedAt DateTime?
+  blogId         String    @db.Uuid
+  blog           Blog      @relation(fields: [blogId], references: [id])
+  createdAt      DateTime  @default(dbgenerated("now()"))
+  updatedAt      DateTime  @default(dbgenerated("now()")) @updatedAt
+}
+
+model Image {
+  id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  owner     User    @relation(fields: [ownerId], references: [id])
+  ownerId   String  @db.Uuid
+  extension String
+  alt       String?
+
+  mainColor      String?
+  secondaryColor String?
+  height         Int?
+  width          Int?
+
+  createdAt DateTime @default(dbgenerated("now()"))
+  updatedAt DateTime @default(dbgenerated("now()")) @updatedAt
+
+  link      Link?    @relation(fields: [linkId], references: [id])
+  linkId    String?  @db.Uuid
+  thought   Thought? @relation(fields: [thoughtId], references: [id])
+  thoughtId String?  @db.Uuid
+  comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId String?  @db.Uuid
+  post      Post?    @relation(fields: [postId], references: [id])
+  postId    String?  @db.Uuid
+  project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?  @db.Uuid
+  paper     Paper?   @relation(fields: [paperId], references: [id])
+  paperId   String?  @db.Uuid
+  design    Design?  @relation(fields: [designId], references: [id])
+  designId  String?  @db.Uuid
+
+}
+
+model Link {
+  id      String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  url     String
+  iconId  String? @db.Uuid
+  iconUrl String?
+
+  blog   Blog   @relation(fields: [blogId], references: [id])
+  blogId String @db.Uuid
+
+  createdAt DateTime @default(dbgenerated("now()"))
+  updatedAt DateTime @default(dbgenerated("now()")) @updatedAt
+  Image     Image[]
+}
+
+model Thought {
+  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  content    String
+  owner      User       @relation(fields: [ownerId], references: [id])
+  ownerId    String     @db.Uuid
+  visibility Visibility @default(DRAFT)
+  editedAt   DateTime?
+  createdAt  DateTime   @default(dbgenerated("now()"))
+  updatedAt  DateTime   @default(dbgenerated("now()")) @updatedAt
+
+  images    Image[]
+  comments  Comment[]
+  reactions Reaction[]
+  shares    Share[]
+  tags      Tag[]
+  blog      Blog       @relation(fields: [blogId], references: [id])
+  blogId    String     @db.Uuid
+}
+
+model Design {
+  id             String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  content        String
+  owner          User       @relation(fields: [ownerId], references: [id])
+  ownerId        String     @db.Uuid
+  visibility     Visibility @default(DRAFT)
+  headerImageId  String?    @db.Uuid
+  headerImageUrl String?
+
+  editedAt  DateTime?
+  createdAt DateTime  @default(dbgenerated("now()"))
+  updatedAt DateTime  @default(dbgenerated("now()")) @updatedAt
+
+  images    Image[]
+  comments  Comment[]
+  reactions Reaction[]
+  shares    Share[]
+  ratings   Rating[]
+  tags      Tag[]
+  blog      Blog       @relation(fields: [blogId], references: [id])
+  blogId    String     @db.Uuid
+
+}
+
+model Reaction {
+  id      String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type    ReactionType @default(LIKE)
+  ownerId String       @db.Uuid
+  owner   User         @relation(fields: [ownerId], references: [id])
+
+  createdAt DateTime @default(dbgenerated("now()"))
+  updatedAt DateTime @default(dbgenerated("now()")) @updatedAt
+
+  post      Post?    @relation(fields: [postId], references: [id])
+  postId    String?  @db.Uuid
+  thought   Thought? @relation(fields: [thoughtId], references: [id])
+  thoughtId String?  @db.Uuid
+  project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?  @db.Uuid
+  paper     Paper?   @relation(fields: [paperId], references: [id])
+  paperId   String?  @db.Uuid
+  design    Design?  @relation(fields: [designId], references: [id])
+  designId  String?  @db.Uuid
+}
+
+model Rating {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  score     Int
+  comment   String?
+  ownerId   String   @db.Uuid
+  owner     User     @relation(fields: [ownerId], references: [id])
+  createdAt DateTime @default(dbgenerated("now()"))
+  updatedAt DateTime @default(dbgenerated("now()")) @updatedAt
+
+  post      Post?    @relation(fields: [postId], references: [id])
+  postId    String?  @db.Uuid
+  paper     Paper?   @relation(fields: [paperId], references: [id])
+  paperId   String?  @db.Uuid
+  project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?  @db.Uuid
+  design    Design   @relation(fields: [designId], references: [id])
+  designId  String   @db.Uuid
+}
+
+model Share {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  shareType ShareType
+  owner     User      @relation(fields: [ownerId], references: [id])
+  ownerId   String    @db.Uuid
+
+  createdAt DateTime @default(dbgenerated("now()"))
+  updatedAt DateTime @default(dbgenerated("now()")) @updatedAt
+
+  post      Post?    @relation(fields: [postId], references: [id])
+  postId    String?  @db.Uuid
+  thought   Thought? @relation(fields: [thoughtId], references: [id])
+  thoughtId String?  @db.Uuid
+  design    Design?  @relation(fields: [designId], references: [id])
+  designId  String?  @db.Uuid
+}
+
+model Translation {
+  id       String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  targetId String          @db.Uuid
+  type     TranslationType
+  language Language
+  content  String
+
+  editedAt  DateTime?
+  createdAt DateTime  @default(dbgenerated("now()"))
+  updatedAt DateTime  @default(dbgenerated("now()")) @updatedAt
+}
+
+model Project {
+  id             String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name           String
+  owner          User       @relation(fields: [ownerId], references: [id])
+  ownerId        String     @db.Uuid
+  content        String
+  headerImageId  String?    @db.Uuid
+  headerImageUrl String?
+  visibility     Visibility @default(DRAFT)
+  url            String?
+
+  tags      Tag[]
+  images    Image[]
+  reactions Reaction[]
+  ratings   Rating[]
+
+  blog   Blog?   @relation(fields: [blogId], references: [id])
+  blogId String? @db.Uuid
+
+  createdAt DateTime @default(dbgenerated("now()"))
+  updatedAt DateTime @default(dbgenerated("now()")) @updatedAt
+}
+
+model Paper {
+  id             String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name           String
+  owner          User       @relation(fields: [ownerId], references: [id])
+  ownerId        String     @db.Uuid
+  content        String
+  visibility     Visibility @default(DRAFT)
+  url            String?
+  headerImageId  String?    @db.Uuid
+  headerImageUrl String?
+
+  tags      Tag[]
+  images    Image[]
+  reactions Reaction[]
+  ratings   Rating[]
+
+  blog   Blog?   @relation(fields: [blogId], references: [id])
+  blogId String? @db.Uuid
+
+  createdAt DateTime @default(dbgenerated("now()"))
+  updatedAt DateTime @default(dbgenerated("now()")) @updatedAt
+}
+
+model OAuthScope {
+  value       String  @id
+  name        String
+  description String?
+
+  //self
+  parentValue String?
+  parent      OAuthScope?  @relation("OAuthScopeToOAuthScope", fields: [parentValue], references: [value])
+  childScopes OAuthScope[] @relation("OAuthScopeToOAuthScope")
+
+  //token
+  accessTokens  OAuthAccessToken[]
+  refreshTokens OAuthRefreshToken[]
+
+  //code
+  authorizationCodes OAuthAuthorizationCode[]
+
+  //client
+  clients OAuthClient[]
+
+  //roles
+  roles UserRole[]
+
+  createdAt DateTime @default(dbgenerated("now()"))
+  updatedAt DateTime @default(dbgenerated("now()")) @updatedAt
+
+  @@index([value])
+}
+
+model OAuthAccessToken {
+  accessToken          String   @id
+  accessTokenExpiresAt DateTime
+
+  //client
+  clientId String
+  client   OAuthClient @relation(fields: [clientId], references: [id])
+
+  //scope
+  scopes OAuthScope[]
+
+  //user
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
+
+  createdAt DateTime @default(dbgenerated("now()"))
+}
+
+model OAuthRefreshToken {
+  refreshToken          String   @id
+  refreshTokenExpiresAt DateTime
+
+  //client
+  clientId String
+  client   OAuthClient @relation(fields: [clientId], references: [id])
+
+  //scope
+  scopes OAuthScope[]
+
+  //user
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
+
+  createdAt DateTime @default(dbgenerated("now()"))
+
+}
+
+enum OAuthGrant {
+  authorization_code
+  client_credentials
+  refresh_token
+  password
+}
+
+model OAuthClient {
+  id                   String       @id
+  secret               String       @unique
+  grants               OAuthGrant[]
+  redirectUris         String[]
+  accessTokenLifetime  Int?
+  refreshTokenLifetime Int?
+
+  //token
+  accessTokens  OAuthAccessToken[]
+  refreshTokens OAuthRefreshToken[]
+
+  //user
+  owner User @relation(fields: [ownerId], references: [id])
+
+  //code
+  authorizationCodes OAuthAuthorizationCode[]
+
+  //scope
+  scopes OAuthScope[]
+
+  ownerId String @db.Uuid
+
+  createdAt DateTime @default(dbgenerated("now()"))
+  updatedAt DateTime @default(dbgenerated("now()")) @updatedAt
+
+  @@index([secret])
+}
+
+model OAuthAuthorizationCode {
+  authorizationCode String   @id
+  expiresAt         DateTime
+  redirectUri       String?
+
+  //client
+  clientId String
+  client   OAuthClient @relation(fields: [clientId], references: [id])
+
+  //scope
+  scopes OAuthScope[]
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
+
+  createdAt DateTime @default(dbgenerated("now()"))
+}

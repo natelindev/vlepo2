@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  vlepo-web:
+    container_name: vlepo-web
+    image: vlepoacr.azurecr.io/vlepo/web
+    network_mode: bridge
+    ports:
+      - 3000:3000
+    env_file:
+      - ../../.env
+  vlepo-api:
+    container_name: vlepo-api
+    image: vlepoacr.azurecr.io/vlepo/api
+    network_mode: bridge
+    ports:
+      - 3001:3001
+    env_file:
+      - ../../.env
