@@ -41,10 +41,9 @@ module "key-vault" {
 }
 
 module "cdn" {
-  source                   = "./modules/cdn"
-  resource_group_name      = azurerm_resource_group.vlepo.name
-  location                 = azurerm_resource_group.vlepo.location
-  storage_account_hostname = module.blob-storage.storage_account_hostname
+  source              = "./modules/cdn"
+  resource_group_name = azurerm_resource_group.vlepo.name
+  location            = azurerm_resource_group.vlepo.location
 }
 
 module "database" {
