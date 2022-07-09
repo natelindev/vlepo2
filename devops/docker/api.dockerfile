@@ -1,6 +1,4 @@
 FROM --platform=linux/amd64 node:current-alpine AS base
-RUN apk add --no-cache libc6-compat
-RUN apk add --no-cache openssl
 # Set working directory
 WORKDIR /app
 
@@ -15,14 +13,13 @@ WORKDIR /app
 COPY --from=pruner /app/out/json/ .
 COPY --from=pruner /app/out/yarn.lock ./yarn.lock
 COPY --from=pruner /app/turbo.json ./turbo.json
-COPY --from=pruner /app/apps/api/prisma ./prisma
 RUN yarn install --frozen-lockfile
-RUN yarn generate
 
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/ .
 COPY --from=pruner /app/out/full/ .
+RUN yarn turbo run generate --scope=api --include-dependencies --no-deps
 RUN yarn turbo run build --scope=api --include-dependencies --no-deps
 
 FROM base as runner
