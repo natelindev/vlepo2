@@ -8,6 +8,7 @@ import { clearSecret } from './azure/clear-secret.js';
 import { readSecret } from './azure/read-secret.js';
 import { uploadToBlobStorage } from './azure/upload-to-blob-storage.js';
 import { writeSecret } from './azure/write-secret.js';
+import { migrateDB } from './migrate-db.js';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 const functionMap: Record<string, { message: string; func: Function }> = {
@@ -30,6 +31,10 @@ const functionMap: Record<string, { message: string; func: Function }> = {
   'azure/clear-secret': {
     message: `clearing secrets from ${process.argv[3]}/${process.argv[4]}`,
     func: clearSecret,
+  },
+  'migrate-db': {
+    message: 'migrating database',
+    func: migrateDB,
   },
 };
 

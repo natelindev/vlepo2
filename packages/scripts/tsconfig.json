@@ -12,7 +12,7 @@
   },
   "exclude": ["node_modules"],
   "extends": "tsconfig/base.json",
-  "include": ["azure", "index.ts", "types"],
+  "include": ["azure", "index.ts", "types", "migrate-db.ts"],
   "ts-node": {
     "esm": true,
     "transpileOnly": true,

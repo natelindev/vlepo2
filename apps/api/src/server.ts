@@ -15,6 +15,7 @@ import http, { Server } from 'http';
 import session from 'koa-session';
 import log from 'loglevel';
 import { promisify } from 'util';
+import { migrateDB } from 'scripts/migrate-db.js';
 // import appInsights from 'applicationinsights';
 
 // const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: process.env.MAILGUN_DOMAIN });
@@ -59,10 +60,10 @@ export const runServer = async (): Promise<() => Promise<void>> => {
   //   process.env = secrets as NodeJS.ProcessEnv;
   // }
 
-  // setup db
-  // if (envDetect.isProd) {
-  //   await prepareDB();
-  // }
+  // migrate database on startup
+  if (envDetect.isProd) {
+    await migrateDB();
+  }
 
   // setup app service logging
   // if (envDetect.isProd) {
