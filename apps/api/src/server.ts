@@ -15,7 +15,6 @@ import http, { Server } from 'http';
 import session from 'koa-session';
 import log from 'loglevel';
 import { promisify } from 'util';
-import { migrateDB } from 'scripts/migrate-db.js';
 // import appInsights from 'applicationinsights';
 
 // const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: process.env.MAILGUN_DOMAIN });
@@ -38,7 +37,7 @@ import type { PrismaClient, User } from '@prisma/client';
 import { GraphQLError } from 'graphql';
 // import { getSecret } from './util/getSecret.js';
 import { onHealthCheck } from './util/health.js';
-// import { prepareDB } from './util/prepareDB.js';
+import { $ } from 'zx';
 
 export type ExtendedContext = {
   prisma: PrismaClient;
@@ -62,7 +61,7 @@ export const runServer = async (): Promise<() => Promise<void>> => {
 
   // migrate database on startup
   if (envDetect.isProd) {
-    await migrateDB();
+    await $`yarn prisma migrate deploy`;
   }
 
   // setup app service logging
