@@ -71,7 +71,7 @@ const Navbar: React.FC = () => {
           <NavbarToggler
             ref={togglerRef}
             onClick={toggleToggler}
-            display={{ _: 'block', sm: 'none' }}
+            display={{ xs: 'block', sm: 'none' }}
           >
             {toggleSprings.map((styles, key) => (
               // eslint-disable-next-line react/no-array-index-key
@@ -94,20 +94,20 @@ const Navbar: React.FC = () => {
           size="32px"
           onClick={() => router.push('/')}
           cursor="pointer"
-          ml={{ _: '0', sm: '0.5rem' }}
+          ml={{ xs: '0', sm: '0.5rem' }}
           mr="0.5rem"
           my="auto"
         />
         <Link href="/" passHref>
           <NavBrand
-            display={{ _: showSearch ? 'none' : 'inline-block', md: 'inline-block' }}
+            display={{ xs: showSearch ? 'none' : 'inline-block', md: 'inline-block' }}
             href="/"
             mr="auto"
           >
             {process.env.NEXT_PUBLIC_DEFAULT_BLOG_NAME}
           </NavBrand>
         </Link>
-        <LeftNavCollapse display={{ _: 'none', sm: 'block' }}>
+        <LeftNavCollapse display={{ xs: 'none', sm: 'block' }}>
           <NavbarNav>
             <NavLink href="/posts">Posts</NavLink>
             <NavLink href="/projects">Projects</NavLink>

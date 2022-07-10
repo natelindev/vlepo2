@@ -91,7 +91,7 @@ const LoginModal = (props: LoginModalProps) => {
 
   const { createWindow: openOauthWindow } = usePopupWindow();
   return (
-    <BaseModal w={{ _: '90%', sm: '50%', md: '25%' }} open={open} onClose={onModalClose}>
+    <BaseModal w={{ xs: '90%', sm: '50%', md: '25%' }} open={open} onClose={onModalClose}>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <InputGroup>
           <Label>Email</Label>

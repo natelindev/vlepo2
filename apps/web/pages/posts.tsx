@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import React from 'react';
 import { usePagination } from 'relay-hooks';
 import { fetchQuery, graphql } from 'relay-runtime';
-import { ErrorText, Loading, PlaceHolder, Slogan, SloganContainer, ClientOnly } from 'ui';
+import { ClientOnly, ErrorText, Loading, PlaceHolder, Slogan, SloganContainer } from 'ui';
 
 import styled, { x } from '@xstyled/styled-components';
 
@@ -11,10 +11,10 @@ import { ArticleCard_post$key } from '../__generated__/ArticleCard_post.graphql'
 import { posts_BlogQuery } from '../__generated__/posts_BlogQuery.graphql';
 import { posts_Posts$key } from '../__generated__/posts_Posts.graphql';
 import { postsPostRefetchQuery } from '../__generated__/postsPostRefetchQuery.graphql';
+import { useQueryFixed } from '../hooks/useQueryFixed';
 import { initEnvironment } from '../relay';
 
 import type { GetServerSidePropsContext } from 'next';
-import { useQueryFixed } from '../hooks/useQueryFixed';
 
 const ArticleCard = dynamic(() => import('../components/ArticleCard'), { loading: Loading });
 
@@ -109,7 +109,7 @@ const PostsSection = (props: PostSectionProps) => {
   if (!data) return <PlaceHolder />;
 
   return (
-    <PostRow mx={{ _: '0.3rem', sm: '2rem', md: '6rem' }}>
+    <PostRow mx={{ xs: '0.3rem', sm: '2rem', md: '6rem' }}>
       <PostMasonry<ArticleCard_post$key>
         columnWidth={350}
         items={
@@ -140,9 +140,9 @@ export default function Home() {
   return (
     <>
       <SloganContainer
-        mt={{ _: '5rem', sm: '4rem', md: '4rem' }}
-        mb={{ _: '4rem', sm: '5rem', md: '6rem' }}
-        fontSize={{ _: '5xl', sm: '6xl', md: '7xl', lg: '8xl' }}
+        mt={{ xs: '5rem', sm: '4rem', md: '4rem' }}
+        mb={{ xs: '4rem', sm: '5rem', md: '6rem' }}
+        fontSize={{ xs: '5xl', sm: '6xl', md: '7xl', lg: '8xl' }}
       >
         <Slogan>Posts</Slogan>
       </SloganContainer>

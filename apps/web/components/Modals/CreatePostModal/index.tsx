@@ -198,7 +198,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
 
   return (
     <BaseModal
-      w={{ _: '90%', sm: '50%' }}
+      w={{ xs: '90%', sm: '50%' }}
       open={open}
       onClose={onModalClose}
       closeOnOutsideClick={false}

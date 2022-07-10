@@ -173,39 +173,39 @@ const PostsSection = (props: PostSectionProps) => {
 
   if (!data || !data.postsConnection)
     return (
-      <IndexCardRow w={{ _: '90%', sm: '100%' }} h={{ _: 'auto', sm: '22rem' }}>
+      <IndexCardRow w={{ xs: '90%', sm: '100%' }} h={{ xs: 'auto', sm: '22rem' }}>
         <PlaceHolder />
       </IndexCardRow>
     );
 
   return (
-    <IndexCardRow w={{ _: '90%', sm: '100%' }} h={{ _: 'auto', sm: '22rem' }} {...rest}>
+    <IndexCardRow w={{ xs: '90%', sm: '100%' }} h={{ xs: 'auto', sm: '22rem' }} {...rest}>
       {data.postsConnection.edges?.map(
         (e) =>
           e &&
           e.node && (
             <IndexPostCard
-              mr={{ _: 'auto', sm: '1rem' }}
-              ml={{ _: 'auto', sm: '1rem' }}
-              h={{ _: '15rem', sm: '20rem' }}
-              w={{ _: '100%', sm: '20rem' }}
-              my={{ _: '0.5rem', sm: '0' }}
+              mr={{ xs: 'auto', sm: '1rem' }}
+              ml={{ xs: 'auto', sm: '1rem' }}
+              h={{ xs: '15rem', sm: '20rem' }}
+              w={{ xs: '100%', sm: '20rem' }}
+              my={{ xs: '0.5rem', sm: '0' }}
               key={e.node.id}
               post={e.node}
             />
           ),
       ) ?? null}
       <IndexViewAllCard
-        mr={{ _: 'auto', sm: '1rem' }}
-        ml={{ _: 'auto', sm: '1rem' }}
-        h={{ _: '10rem', sm: '20rem' }}
-        w={{ _: '100%', sm: '20rem' }}
-        minW={{ _: '100%', sm: '20rem' }}
-        my={{ _: '0.5rem', sm: '0' }}
+        mr={{ xs: 'auto', sm: '1rem' }}
+        ml={{ xs: 'auto', sm: '1rem' }}
+        h={{ xs: '10rem', sm: '20rem' }}
+        w={{ xs: '100%', sm: '20rem' }}
+        minW={{ xs: '100%', sm: '20rem' }}
+        my={{ xs: '0.5rem', sm: '0' }}
         ariaLabel="View all posts"
         href="/posts"
       >
-        <H3 ml={{ _: '6rem', sm: '4.5rem' }} my="auto">
+        <H3 ml={{ xs: '6rem', sm: '4.5rem' }} my="auto">
           View all Posts
         </H3>
         <IndexViewAllArrow size={24} />
@@ -226,33 +226,33 @@ const ProjectsSection = (props: ProjectSectionProps) => {
   if (!data || !data.projectsConnection) return <PlaceHolder />;
 
   return (
-    <IndexCardRow w={{ _: '90%', sm: '100%' }} h={{ _: 'auto', sm: '22rem' }} {...rest}>
+    <IndexCardRow w={{ xs: '90%', sm: '100%' }} h={{ xs: 'auto', sm: '22rem' }} {...rest}>
       {data.projectsConnection.edges?.map(
         (e) =>
           e &&
           e.node && (
             <IndexProjectCard
-              mr={{ _: 'auto', sm: '1rem' }}
-              ml={{ _: 'auto', sm: '1rem' }}
-              h={{ _: '15rem', sm: '20rem' }}
-              w={{ _: '100%', sm: '20rem' }}
-              my={{ _: '0.5rem', sm: '0' }}
+              mr={{ xs: 'auto', sm: '1rem' }}
+              ml={{ xs: 'auto', sm: '1rem' }}
+              h={{ xs: '15rem', sm: '20rem' }}
+              w={{ xs: '100%', sm: '20rem' }}
+              my={{ xs: '0.5rem', sm: '0' }}
               key={e.node.id}
               project={e.node}
             />
           ),
       ) ?? null}
       <IndexViewAllCard
-        mr={{ _: 'auto', sm: '1rem' }}
-        ml={{ _: 'auto', sm: '1rem' }}
-        h={{ _: '10rem', sm: '20rem' }}
-        w={{ _: '100%', sm: '20rem' }}
-        minWidth={{ _: '100%', sm: '20rem' }}
-        my={{ _: '0.5rem', sm: '0' }}
+        mr={{ xs: 'auto', sm: '1rem' }}
+        ml={{ xs: 'auto', sm: '1rem' }}
+        h={{ xs: '10rem', sm: '20rem' }}
+        w={{ xs: '100%', sm: '20rem' }}
+        minWidth={{ xs: '100%', sm: '20rem' }}
+        my={{ xs: '0.5rem', sm: '0' }}
         ariaLabel="View all Projects"
         href="/projects"
       >
-        <H3 ml={{ _: '5rem', sm: '3rem' }} my="auto">
+        <H3 ml={{ xs: '5rem', sm: '3rem' }} my="auto">
           View all Projects
         </H3>
         <IndexViewAllArrow size={24} />
@@ -272,33 +272,33 @@ const PapersSection = (props: PaperSectionProps) => {
   if (!data || !data.papersConnection) return <PlaceHolder />;
 
   return (
-    <IndexCardRow w={{ _: '90%', sm: '100%' }} h={{ _: 'auto', sm: '22rem' }} {...rest}>
+    <IndexCardRow w={{ xs: '90%', sm: '100%' }} h={{ xs: 'auto', sm: '22rem' }} {...rest}>
       {data.papersConnection.edges?.map(
         (e) =>
           e &&
           e.node && (
             <IndexPaperCard
-              mr={{ _: 'auto', sm: '1rem' }}
-              ml={{ _: 'auto', sm: '1rem' }}
-              h={{ _: '15rem', sm: '20rem' }}
-              w={{ _: '100%', sm: '20rem' }}
-              my={{ _: '0.5rem', sm: '0' }}
+              mr={{ xs: 'auto', sm: '1rem' }}
+              ml={{ xs: 'auto', sm: '1rem' }}
+              h={{ xs: '15rem', sm: '20rem' }}
+              w={{ xs: '100%', sm: '20rem' }}
+              my={{ xs: '0.5rem', sm: '0' }}
               key={e.node.id}
               paper={e.node}
             />
           ),
       ) ?? null}
       <IndexViewAllCard
-        mr={{ _: 'auto', sm: '1rem' }}
-        ml={{ _: 'auto', sm: '1rem' }}
-        h={{ _: '10rem', sm: '20rem' }}
-        w={{ _: '100%', sm: '20rem' }}
-        minWidth={{ _: '100%', sm: '20rem' }}
-        my={{ _: '0.5rem', sm: '0' }}
+        mr={{ xs: 'auto', sm: '1rem' }}
+        ml={{ xs: 'auto', sm: '1rem' }}
+        h={{ xs: '10rem', sm: '20rem' }}
+        w={{ xs: '100%', sm: '20rem' }}
+        minWidth={{ xs: '100%', sm: '20rem' }}
+        my={{ xs: '0.5rem', sm: '0' }}
         ariaLabel="View all Papers"
         href="/papers"
       >
-        <H3 ml={{ _: '5.5rem', sm: '4rem' }} my="auto">
+        <H3 ml={{ xs: '5.5rem', sm: '4rem' }} my="auto">
           View all Papers
         </H3>
         <IndexViewAllArrow size={24} />
@@ -325,31 +325,31 @@ export default function Home() {
   }
 
   return (
-    <BasePage mx={{ _: '0', sm: '3rem', md: '5rem' }}>
+    <BasePage mx={{ xs: '0', sm: '3rem', md: '5rem' }}>
       <IndexSlogan
         mt="5rem"
-        mx={{ _: '1rem', sm: 'auto' }}
-        fontSize={{ _: '4xl', sm: '5xl', md: '6xl', lg: '7xl' }}
+        mx={{ xs: '1rem', sm: 'auto' }}
+        fontSize={{ xs: '4xl', sm: '5xl', md: '6xl', lg: '7xl' }}
       >
         {process.env.NEXT_PUBLIC_DEFAULT_BLOG_SLOGAN}
       </IndexSlogan>
-      <CanvasContainer h={{ _: '300px', sm: '400px', md: '500px' }}>
+      <CanvasContainer h={{ xs: '300px', sm: '400px', md: '500px' }}>
         <ClientOnly>
           <HomeScene />
         </ClientOnly>
       </CanvasContainer>
-      <Row ml={{ _: '2rem', sm: '0' }}>
+      <Row ml={{ xs: '2rem', sm: '0' }}>
         <H2>Posts</H2>
       </Row>
-      <PostsSection blog={data.blog} flexDirection={{ _: 'column', sm: 'row' }} />
-      <Row ml={{ _: '2rem', sm: '0' }}>
+      <PostsSection blog={data.blog} flexDirection={{ xs: 'column', sm: 'row' }} />
+      <Row ml={{ xs: '2rem', sm: '0' }}>
         <H2>Papers</H2>
       </Row>
-      <PapersSection blog={data.blog} flexDirection={{ _: 'column', sm: 'row' }} />
-      <Row ml={{ _: '2rem', sm: '0' }}>
+      <PapersSection blog={data.blog} flexDirection={{ xs: 'column', sm: 'row' }} />
+      <Row ml={{ xs: '2rem', sm: '0' }}>
         <H2>Projects</H2>
       </Row>
-      <ProjectsSection blog={data.blog} flexDirection={{ _: 'column', sm: 'row' }} />
+      <ProjectsSection blog={data.blog} flexDirection={{ xs: 'column', sm: 'row' }} />
       <SubscribeSection />
     </BasePage>
   );

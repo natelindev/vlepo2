@@ -149,7 +149,7 @@ const TagsScene = (prop: TagsSceneProps) => {
   const ContextBridge = useContextBridge(ThemeContext, RouterContext);
   const data = useFragment(tagSceneFragment, blog);
   return (
-    <CanvasContainer h={{ _: '500px', sm: '550px', md: '600px' }}>
+    <CanvasContainer h={{ xs: '500px', sm: '550px', md: '600px' }}>
       <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 35], fov: 90 }}>
         <ContextBridge>
           <fog attach="fog" args={['#202025', 0, 80]} />

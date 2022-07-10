@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { useQueryFixed } from '../../../hooks/useQueryFixed';
 import { graphql } from 'relay-runtime';
 import { Avatar, Card, Column, ErrorText, H2, H4, PlaceHolder, Row } from 'ui';
 
@@ -7,6 +6,7 @@ import styled from '@xstyled/styled-components';
 
 import { profile_userQuery } from '../../../__generated__/profile_userQuery.graphql';
 import CommentSection from '../../../components/Comment/CommentSection';
+import { useQueryFixed } from '../../../hooks/useQueryFixed';
 
 const UserCard = styled(Card)`
   flex-direction: column;
@@ -34,7 +34,7 @@ const Profile = () => {
     return <ErrorText>{error.message}</ErrorText>;
   }
   return (
-    <Column mx="auto" w={{ _: '90%', sm: '80%', md: '70%', lg: '60%' }}>
+    <Column mx="auto" w={{ xs: '90%', sm: '80%', md: '70%', lg: '60%' }}>
       {!isLoading && data?.user ? (
         <>
           <UserCard p="2rem" mt="10rem">

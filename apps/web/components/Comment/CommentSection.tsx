@@ -181,7 +181,7 @@ const CommentSection = (props: CommentSectionProps) => {
             </>
           ) : (
             <Row
-              flexDirection={{ _: 'column', md: 'row' }}
+              flexDirection={{ xs: 'column', md: 'row' }}
               justifyContent="center"
               alignItems="center"
               h="8rem"

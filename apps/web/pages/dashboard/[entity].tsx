@@ -133,22 +133,22 @@ const BlogSection = () => {
 
   return (
     <Row w="100%">
-      <DashboardCard width={{ _: '100%', sm: '50%', md: '25%' }} m={{ _: '0rem', sm: '3rem' }}>
+      <DashboardCard width={{ xs: '100%', sm: '50%', md: '25%' }} m={{ xs: '0rem', sm: '3rem' }}>
         <Numbers>{postViewCount}</Numbers>
         <NumbersLabel>Total post views</NumbersLabel>
       </DashboardCard>
 
-      <DashboardCard width={{ _: '100%', sm: '50%', md: '25%' }} m={{ _: '0rem', sm: '3rem' }}>
+      <DashboardCard width={{ xs: '100%', sm: '50%', md: '25%' }} m={{ xs: '0rem', sm: '3rem' }}>
         <Numbers>{postReactionCount}</Numbers>
         <NumbersLabel>Total post reactions</NumbersLabel>
       </DashboardCard>
 
-      <DashboardCard width={{ _: '100%', sm: '50%', md: '25%' }} m={{ _: '0rem', sm: '3rem' }}>
+      <DashboardCard width={{ xs: '100%', sm: '50%', md: '25%' }} m={{ xs: '0rem', sm: '3rem' }}>
         <Numbers>{postCommentCount}</Numbers>
         <NumbersLabel>Total post comments</NumbersLabel>
       </DashboardCard>
 
-      <DashboardCard width={{ _: '100%', sm: '50%', md: '25%' }} m={{ _: '0rem', sm: '3rem' }}>
+      <DashboardCard width={{ xs: '100%', sm: '50%', md: '25%' }} m={{ xs: '0rem', sm: '3rem' }}>
         <Numbers>{userCount}</Numbers>
         <NumbersLabel>Total users</NumbersLabel>
       </DashboardCard>

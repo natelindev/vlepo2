@@ -74,15 +74,15 @@ const SubscribeSection = () => {
       mx="auto"
       mb="5rem"
       p="4rem"
-      w={{ _: '90%', sm: '80%', md: '70%', lg: '60%' }}
+      w={{ xs: '90%', sm: '80%', md: '70%', lg: '60%' }}
       maxWidth="40rem"
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
         <H3 mb="1rem">Get latest posts</H3>
         <H4 my="1rem">Get my latest post every week. No spam, unsubscribe at any time.</H4>
         <Row
-          flexDirection={{ _: 'column', md: 'row' }}
-          alignItems={{ _: 'center', md: 'flex-end' }}
+          flexDirection={{ xs: 'column', md: 'row' }}
+          alignItems={{ xs: 'center', md: 'flex-end' }}
         >
           <InputGroup mr="1rem" w="100%">
             <Label htmlFor="firstName">First Name</Label>
@@ -104,12 +104,12 @@ const SubscribeSection = () => {
             {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
           </InputGroup>
           <GradientButton
-            w={{ _: '100%', md: 'auto' }}
+            w={{ xs: '100%', md: 'auto' }}
             px="1rem"
             py="0.5rem"
-            mt={{ _: '2rem', md: 'auto' }}
-            mb={{ _: '0', md: '0.5rem' }}
-            mr={{ _: '1rem', md: '0' }}
+            mt={{ xs: '2rem', md: 'auto' }}
+            mb={{ xs: '0', md: '0.5rem' }}
+            mr={{ xs: '1rem', md: '0' }}
             type="submit"
           >
             {loading ? <Loading size={24} /> : 'Subscribe'}

@@ -131,12 +131,12 @@ const Article = (props: ArticleProps) => {
           cardType: 'summary_large_image',
         }}
       />
-      <Header h={{ _: '18rem', sm: '20rem', md: '22rem' }}>
+      <Header h={{ xs: '18rem', sm: '20rem', md: '22rem' }}>
         <Image
           objectFit="cover"
           width="100%"
           filter={theme.colors.headerImageFilter}
-          h={{ _: '18rem', sm: '20rem', md: '22rem' }}
+          h={{ xs: '18rem', sm: '20rem', md: '22rem' }}
           src={headerImageUrl}
           textShadow={
             headerImageUrl && theme.name === 'light' ? 'rgba(0,0,0, 0.3) 0 0 8px' : 'none'
@@ -147,7 +147,7 @@ const Article = (props: ArticleProps) => {
               <KeyboardBackspace size={24} />
               <H5 ml="0.5rem">Back</H5>
             </Back>
-            <Title fontSize={{ _: '2xl', sm: '3xl', md: '4xl', lg: '5xl' }} mx="auto" mt="2rem">
+            <Title fontSize={{ xs: '2xl', sm: '3xl', md: '4xl', lg: '5xl' }} mx="auto" mt="2rem">
               {title}
             </Title>
             <H5 fontWeight="normal" mx="auto" mt="2rem">
@@ -173,7 +173,7 @@ const Article = (props: ArticleProps) => {
         url={fullUrl}
         tags={tagsConnection.edges.map((te) => te.node.name)}
       />
-      <Column mb="2rem" mx="auto" w={{ _: '90%', md: '85%', lg: '80%' }}>
+      <Column mb="2rem" mx="auto" w={{ xs: '90%', md: '85%', lg: '80%' }}>
         <Row>
           <ArticleBody mt="1rem">
             <Content>

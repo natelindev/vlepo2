@@ -84,9 +84,9 @@ const Papers = () => {
       </Head>
 
       <SloganContainer
-        mt={{ _: '5rem', sm: '4rem', md: '3rem' }}
-        mb={{ _: '4rem', sm: '5rem', md: '6rem' }}
-        fontSize={{ _: '5xl', sm: '6xl', md: '7xl', lg: '8xl' }}
+        mt={{ xs: '5rem', sm: '4rem', md: '3rem' }}
+        mb={{ xs: '4rem', sm: '5rem', md: '6rem' }}
+        fontSize={{ xs: '5xl', sm: '6xl', md: '7xl', lg: '8xl' }}
       >
         <Slogan>Papers</Slogan>
       </SloganContainer>
@@ -109,9 +109,9 @@ const PaperList = (props: PaperListProps) => {
 
   return (
     <Column
-      mx={{ _: '0.3rem', sm: '6rem', md: '12rem', lg: 'auto' }}
+      mx={{ xs: '0.3rem', sm: '6rem', md: '12rem', lg: 'auto' }}
       my="3rem"
-      w={{ _: 'auto', lg: '40rem' }}
+      w={{ xs: 'auto', lg: '40rem' }}
     >
       {paper &&
         paper.papersConnection &&

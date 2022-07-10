@@ -83,9 +83,9 @@ const Projects = () => {
         <title key="title">Projects</title>
       </Head>
       <SloganContainer
-        mt={{ _: '5rem', sm: '4rem', md: '3rem' }}
-        mb={{ _: '4rem', sm: '5rem', md: '6rem' }}
-        fontSize={{ _: '5xl', sm: '6xl', md: '7xl', lg: '8xl' }}
+        mt={{ xs: '5rem', sm: '4rem', md: '3rem' }}
+        mb={{ xs: '4rem', sm: '5rem', md: '6rem' }}
+        fontSize={{ xs: '5xl', sm: '6xl', md: '7xl', lg: '8xl' }}
       >
         <Slogan>Projects</Slogan>
       </SloganContainer>
@@ -108,8 +108,8 @@ const ProjectList = (props: ProjectListProps) => {
 
   return (
     <Column
-      mx={{ _: '0.3rem', sm: '6rem', md: '12rem', lg: 'auto' }}
-      w={{ _: 'auto', lg: '40rem' }}
+      mx={{ xs: '0.3rem', sm: '6rem', md: '12rem', lg: 'auto' }}
+      w={{ xs: 'auto', lg: '40rem' }}
       my="3rem"
     >
       {project &&
