@@ -1,5 +1,5 @@
 import log from 'loglevel';
-import { serialize } from 'next-mdx-remote/serialize.js';
+import { serialize } from 'next-mdx-remote/serialize';
 
 export const renderMdx = async (content: string) => {
   try {
