@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: ["18"]
+        node-version: [18]
 
     environment:
       name: staging
