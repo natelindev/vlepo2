@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  pull_request:
+    types: ["opened", "edited", "synchronize", "reopened"]
+    branches: [main]
+
+# needed for terraform
+env:
+  ENVIRONMENT: staging
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: ["18"]
+
+    environment:
+      name: staging
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: use node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node_version }}
+
+      - name: install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: run `generate`
+        run: yarn generate
+
+      - name: run `lint`
+        run: yarn lint
+
+      - name: run `typecheck`
+        run: yarn typecheck
+
+      - name: determine if terraform plan is needed
+        run: |
+          if ! git diff HEAD^ HEAD --quiet ./devops/infrastructure; then
+              echo "USE_TF=true" >> "$GITHUB_ENV"
+          fi
+
+      - name: use terraform
+        if: env.USE_TF == 'true'
+        uses: hashicorp/setup-terraform@v2
+
+      - name: terraform plan
+        run: yarn plan

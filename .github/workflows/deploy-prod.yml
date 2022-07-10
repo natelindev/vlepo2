@@ -1,0 +1,87 @@
+name: deploy-prod
+
+on:
+  push:
+    branches: [main]
+
+# needed for terraform
+env:
+  ENVIRONMENT: staging
+
+jobs:
+  deploy-infra:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: determine if infra needs to be deployed
+        run: |
+          if ! git diff HEAD^ HEAD --quiet ./devops/infrastructure; then
+              echo "DEPLOY_INFRA=true" >> "$GITHUB_ENV"
+          fi
+
+      - name: use terraform
+        if: env.DEPLOY_INFRA == 'true'
+        uses: hashicorp/setup-terraform@v2
+
+      - name: terraform plan
+        run: yarn plan
+
+      - name: terraform apply
+        run: yarn apply
+
+  deploy-api:
+    needs: deploy-infra
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: determine if api needs to be deployed
+        run: |
+          if ! git diff HEAD^ HEAD --quiet ./apps/api; then
+              echo "DEPLOY_API=true" >> "$GITHUB_ENV"
+          fi
+          if ! git diff HEAD^ HEAD --quiet ./packages/helpers; then
+              echo "DEPLOY_API=true" >> "$GITHUB_ENV"
+          fi
+
+      - name: build api container and push to acr
+        if: env.DEPLOY_API == 'true'
+        run: ./devops/docker/deploy-api.sh
+
+  deploy-web:
+    needs: deploy-infra
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: determine if web needs to be deployed
+        run: |
+          if ! git diff HEAD^ HEAD --quiet ./apps/api; then
+              echo "DEPLOY_WEB=true" >> "$GITHUB_ENV"
+          fi
+          if ! git diff HEAD^ HEAD --quiet ./packages/ui; then
+              echo "DEPLOY_WEB=true" >> "$GITHUB_ENV"
+          fi
+
+      - name: build web container and push to acr
+        if: env.DEPLOY_WEB == 'true'
+        run: ./devops/docker/deploy-web.sh

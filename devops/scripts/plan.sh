@@ -2,4 +2,4 @@
 
 cd devops/infrastructure
 terraform init -backend-config=./${ENVIRONMENT}.conf -reconfigure
-terraform plan -var-file=./${ENVIRONMENT}.tfvars -out "plan-${ENVIRONMENT}.tfplan"
+terraform plan -out "plan-${ENVIRONMENT}.tfplan"

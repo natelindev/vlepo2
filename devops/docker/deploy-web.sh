@@ -23,12 +23,9 @@ docker build . -f devops/docker/web.dockerfile -t vlepoacr.azurecr.io/vlepo/web 
 --build-arg NEXT_PUBLIC_DEFAULT_BLOG_SLOGAN="$NEXT_PUBLIC_DEFAULT_BLOG_SLOGAN" \
 --build-arg NEXT_PUBLIC_DEFAULT_CLIENT_ID="$NEXT_PUBLIC_DEFAULT_CLIENT_ID" \
 --build-arg NEXT_PUBLIC_SITE_URL="$NEXT_PUBLIC_SITE_URL" \
---build-arg NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS="$NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS" &
-docker build . -f devops/docker/api.dockerfile -t vlepoacr.azurecr.io/vlepo/api --network host &
-wait
+--build-arg NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS="$NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS"
 
 # push to azure container registry
 echo "pushing to azure container registry"
-docker push vlepoacr.azurecr.io/vlepo/web &
-docker push vlepoacr.azurecr.io/vlepo/api &
+docker push vlepoacr.azurecr.io/vlepo/web
 wait
