@@ -37,7 +37,7 @@ export const BasePaperCard = styled(Card)`
     margin-bottom: auto;
   }
 
-  @media only screen and (min-width: xs) {
+  @media only screen and (min-width: sm) {
     &:hover {
       ${Abstract} {
         opacity: 1;

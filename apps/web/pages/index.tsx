@@ -83,7 +83,7 @@ const IndexSlogan = styled(x.h1)`
   text-align: center;
   display: flex;
   flex-wrap: wrap;
-  font-size: ${(props) => props.theme.fontSizes['7xl']};
+  align-self: center;
   font-weight: ${(props) => props.theme.fontWeights.bold};
   z-index: ${(props) => props.theme.zIndices.badge};
 `;
@@ -329,7 +329,7 @@ export default function Home() {
       <IndexSlogan
         mt="5rem"
         mx={{ _: '1rem', sm: 'auto' }}
-        fontSize={{ _: '6xl', sm: '7xl', md: '8xl', lg: '9xl' }}
+        fontSize={{ _: '4xl', sm: '5xl', md: '6xl', lg: '7xl' }}
       >
         {process.env.NEXT_PUBLIC_DEFAULT_BLOG_SLOGAN}
       </IndexSlogan>

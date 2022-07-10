@@ -43,7 +43,7 @@ export const BasePostCard = styled(Card)`
     opacity: 0;
   }
 
-  @media only screen and (min-width: xs) {
+  @media only screen and (min-width: sm) {
     &:hover {
       ${Abstract} {
         opacity: 1;

@@ -147,7 +147,7 @@ const Article = (props: ArticleProps) => {
               <KeyboardBackspace size={24} />
               <H5 ml="0.5rem">Back</H5>
             </Back>
-            <Title fontSize={{ _: '6xl', sm: '7xl', md: '8xl', lg: '9xl' }} mx="auto" mt="2rem">
+            <Title fontSize={{ _: '2xl', sm: '3xl', md: '4xl', lg: '5xl' }} mx="auto" mt="2rem">
               {title}
             </Title>
             <H5 fontWeight="normal" mx="auto" mt="2rem">

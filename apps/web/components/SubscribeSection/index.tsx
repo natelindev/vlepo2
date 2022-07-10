@@ -78,7 +78,7 @@ const SubscribeSection = () => {
       maxWidth="40rem"
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <H3 mb="1rem">Get latest lab news</H3>
+        <H3 mb="1rem">Get latest posts</H3>
         <H4 my="1rem">Get my latest post every week. No spam, unsubscribe at any time.</H4>
         <Row
           flexDirection={{ _: 'column', md: 'row' }}

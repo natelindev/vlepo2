@@ -1,13 +1,12 @@
 import styled, { x } from '@xstyled/styled-components';
 
-import { H1 } from '../Typography';
-
 export const Header = styled(x.div)`
   width: 100%;
 `;
 
-export const Title = styled(H1)`
+export const Title = styled(x.h1)`
   font-weight: 600;
+  font-family: heading;
   text-align: center;
 `;
 
