@@ -1,4 +1,3 @@
-import { serialize } from 'next-mdx-remote/serialize';
 import readingTime from 'reading-time';
 import { remark } from 'remark';
 import mdx from 'remark-mdx';
@@ -10,6 +9,7 @@ import { genPostSlug } from '../../util/genPostSlug.js';
 import { builder } from '../builder.js';
 import { connectionBuilder, rawConnectionBuilder } from '../util/connectionBuilder.js';
 import { getImageCDNUrl } from '../util/getImageCDNUrl.js';
+import { renderMdx } from '../util/renderMdx.js';
 import { Commendable } from './Comment.js';
 import { createImageInput } from './Image.js';
 import { Visibility } from './Node.js';
@@ -38,9 +38,7 @@ export const Post = builder.prismaNode('Post', {
     content: t.exposeString('content'),
     renderedContent: t.string({
       nullable: false,
-      resolve: async ({ content }) => {
-        return JSON.stringify(await serialize(content));
-      },
+      resolve: async ({ content }) => renderMdx(content),
     }),
     owner: t.relation('owner'),
     headerImageUrl: t.string({

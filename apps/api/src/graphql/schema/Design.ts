@@ -1,9 +1,8 @@
-import { serialize } from 'next-mdx-remote/serialize';
-
 import { DBComment, DBImage, DBRating, DBReaction, DBShare, DBTag } from '../../types/db.js';
 import { builder } from '../builder.js';
 import { connectionBuilder, rawConnectionBuilder } from '../util/connectionBuilder.js';
 import { getImageCDNUrl } from '../util/getImageCDNUrl.js';
+import { renderMdx } from '../util/renderMdx.js';
 import { Commendable } from './Comment.js';
 import { Visibility } from './Node.js';
 import { Ratable } from './Rating.js';
@@ -18,9 +17,7 @@ export const Design = builder.prismaNode('Design', {
     content: t.exposeString('content'),
     renderedContent: t.string({
       nullable: false,
-      resolve: async ({ content }) => {
-        return JSON.stringify(await serialize(content));
-      },
+      resolve: async ({ content }) => renderMdx(content),
     }),
     owner: t.relation('owner'),
     headerImageUrl: t.string({

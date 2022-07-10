@@ -1,8 +1,7 @@
-import { serialize } from 'next-mdx-remote/serialize';
-
 import { DBComment, DBImage, DBReaction, DBShare, DBTag } from '../../types/db.js';
 import { builder } from '../builder.js';
 import { connectionBuilder, rawConnectionBuilder } from '../util/connectionBuilder.js';
+import { renderMdx } from '../util/renderMdx.js';
 import { Commendable } from './Comment.js';
 import { Reactable } from './Reaction.js';
 import { Sharable } from './Share.js';
@@ -15,9 +14,7 @@ export const Thought = builder.prismaNode('Thought', {
     content: t.exposeString('content'),
     renderedContent: t.string({
       nullable: false,
-      resolve: async ({ content }) => {
-        return JSON.stringify(await serialize(content));
-      },
+      resolve: async ({ content }) => renderMdx(content),
     }),
     createdAt: t.expose('createdAt', { type: 'DateTime' }),
     updatedAt: t.expose('updatedAt', { type: 'DateTime' }),

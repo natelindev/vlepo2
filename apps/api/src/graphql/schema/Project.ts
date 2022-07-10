@@ -1,17 +1,16 @@
-import { serialize } from 'next-mdx-remote/serialize';
 import { remark } from 'remark';
 import mdx from 'remark-mdx';
 import strip from 'remark-mdx-to-plain-text';
-
-import { Visibility } from './Node.js';
 
 import { DBRating, DBReaction, DBTag } from '../../types/db.js';
 import { builder } from '../builder.js';
 import { connectionBuilder, rawConnectionBuilder } from '../util/connectionBuilder.js';
 import { getImageCDNUrl } from '../util/getImageCDNUrl.js';
-import { Taggable } from './Tag.js';
-import { Reactable } from './Reaction.js';
+import { renderMdx } from '../util/renderMdx.js';
+import { Visibility } from './Node.js';
 import { Ratable } from './Rating.js';
+import { Reactable } from './Reaction.js';
+import { Taggable } from './Tag.js';
 
 export const Project = builder.prismaNode('Project', {
   id: { field: 'id' },
@@ -21,9 +20,7 @@ export const Project = builder.prismaNode('Project', {
     content: t.exposeString('content'),
     renderedContent: t.string({
       nullable: false,
-      resolve: async ({ content }) => {
-        return JSON.stringify(await serialize(content));
-      },
+      resolve: async ({ content }) => renderMdx(content),
     }),
     abstract: t.string({
       nullable: true,

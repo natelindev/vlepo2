@@ -1,6 +1,5 @@
-import { serialize } from 'next-mdx-remote/serialize';
-
 import { builder } from '../builder.js';
+import { renderMdx } from '../util/renderMdx.js';
 
 export const Translation = builder.prismaNode('Translation', {
   id: { field: 'id' },
@@ -10,9 +9,7 @@ export const Translation = builder.prismaNode('Translation', {
     content: t.exposeString('content'),
     renderedContent: t.string({
       nullable: false,
-      resolve: async ({ content }) => {
-        return JSON.stringify(await serialize(content));
-      },
+      resolve: async ({ content }) => renderMdx(content),
     }),
     createdAt: t.expose('createdAt', { type: 'DateTime' }),
     updatedAt: t.expose('updatedAt', { type: 'DateTime' }),
