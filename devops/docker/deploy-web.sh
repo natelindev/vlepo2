@@ -28,4 +28,3 @@ docker build . -f devops/docker/web.dockerfile -t vlepoacr.azurecr.io/vlepo/web 
 # push to azure container registry
 echo "pushing to azure container registry"
 docker push vlepoacr.azurecr.io/vlepo/web
-wait
