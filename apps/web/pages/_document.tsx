@@ -40,7 +40,7 @@ class CustomDocument extends Document {
           <link rel="icon" href="/favicon.ico" />
           <meta
             name="description"
-            content="Nathaniel's Lab, where he experiment various technologies and write about them"
+            content="Nathaniel's blog, where he experiment latest technologies and write about them"
           />
         </Head>
         <body>

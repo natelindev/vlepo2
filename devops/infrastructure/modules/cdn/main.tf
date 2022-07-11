@@ -35,7 +35,6 @@ resource "azurerm_frontdoor" "vlepofd" {
       forwarding_protocol           = "HttpsOnly"
       backend_pool_name             = "vlepoBackendPoolStatic"
       cache_enabled                 = true
-      cache_duration                = "P7D"
       cache_use_dynamic_compression = true
     }
   }
@@ -74,11 +73,21 @@ resource "azurerm_frontdoor" "vlepofd" {
   }
 
   backend_pool_load_balancing {
-    name = "vlepoLoadBalancingSettingsDefault"
+    name = "vlepoLoadBalancingDefault"
   }
 
   backend_pool_health_probe {
-    name = "vlepoHealthProbeSettingDefault"
+    name = "vlepoHealthProbeDefault"
+  }
+
+  backend_pool_health_probe {
+    name = "vlepoHealthProbeApi"
+    path = "/.well-known/apollo/server-health"
+  }
+
+  backend_pool_health_probe {
+    name = "vlepoHealthProbeWeb"
+    path = "/health"
   }
 
   backend_pool_settings {
@@ -97,8 +106,8 @@ resource "azurerm_frontdoor" "vlepofd" {
       weight      = 40
     }
 
-    load_balancing_name = "vlepoLoadBalancingSettingsDefault"
-    health_probe_name   = "vlepoHealthProbeSettingDefault"
+    load_balancing_name = "vlepoLoadBalancingDefault"
+    health_probe_name   = "vlepoHealthProbeWeb"
   }
 
   backend_pool {
@@ -112,8 +121,8 @@ resource "azurerm_frontdoor" "vlepofd" {
       weight      = 30
     }
 
-    load_balancing_name = "vlepoLoadBalancingSettingsDefault"
-    health_probe_name   = "vlepoHealthProbeSettingDefault"
+    load_balancing_name = "vlepoLoadBalancingDefault"
+    health_probe_name   = "vlepoHealthProbeApi"
   }
 
   backend_pool {
@@ -127,8 +136,8 @@ resource "azurerm_frontdoor" "vlepofd" {
       weight      = 30
     }
 
-    load_balancing_name = "vlepoLoadBalancingSettingsDefault"
-    health_probe_name   = "vlepoHealthProbeSettingDefault"
+    load_balancing_name = "vlepoLoadBalancingDefault"
+    health_probe_name   = "vlepoHealthProbeDefault"
   }
 
   frontend_endpoint {
