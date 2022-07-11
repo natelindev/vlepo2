@@ -1,14 +1,10 @@
-# build docker images and push to azure container registry
-
-# read secrets from azure key vault
-eval $(packages/scripts/index.ts azure/read-secret vlepo-env env-staging --env)
-
-# read azure container registry keys from key vault
-eval $(packages/scripts/index.ts azure/read-secret vlepo-secrets acr-credentials --env)
+if [$SKIP_READ_SECRETS -ne 'true']; then
+    eval $(packages/scripts/index.ts azure/read-secret vlepo-env env-staging --env)
+    eval $(packages/scripts/index.ts azure/read-secret vlepo-secrets acr-credentials --env)
+fi
 
 echo $ACR_PASSWORD | docker login -u$ACR_USERNAME --password-stdin vlepoacr.azurecr.io
 
-# build vlepo services
 echo "building vlepo services"
 docker build . -f devops/docker/web.dockerfile -t vlepoacr.azurecr.io/vlepo/web --network host \
 --build-arg AZURE_STORAGE_ACCOUNT="$AZURE_STORAGE_ACCOUNT" \
@@ -28,3 +24,6 @@ docker build . -f devops/docker/web.dockerfile -t vlepoacr.azurecr.io/vlepo/web 
 # push to azure container registry
 echo "pushing to azure container registry"
 docker push vlepoacr.azurecr.io/vlepo/web
+
+echo "restart web"
+az webapp restart --name vlepo-web --resource-group vlepo-resources-${ENVIRONMENT}

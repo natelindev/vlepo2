@@ -10,16 +10,36 @@ env:
   ENVIRONMENT: staging
 
 jobs:
-  build:
+  detect-changes:
     runs-on: ubuntu-latest
-
-    environment:
-      name: staging
 
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 2
+          fetch-depth: 0
+
+      - name: determine if running tests is needed
+        run: |
+          if ! git diff ${{ github.head_ref }} ${{ github.base_ref }} --quiet ./apps; then
+              echo "RUN_TEST=true" >> "$GITHUB_ENV"
+          fi
+          if ! git diff ${{ github.head_ref }} ${{ github.base_ref }} --quiet ./packages; then
+              echo "RUN_TEST=true" >> "$GITHUB_ENV"
+          fi
+
+      - name: determine if terraform plan is needed
+        run: |
+          if ! git diff ${{ github.head_ref }} ${{ github.base_ref }} --quiet ./devops/infrastructure; then
+              echo "RUN_TF_PLAN=true" >> "$GITHUB_ENV"
+          fi
+
+  test:
+    needs: detect-changes
+    if: env.RUN_TEST == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
 
       - name: use node.js 18
         - uses: actions/setup-node@v3
@@ -38,14 +58,23 @@ jobs:
       - name: run `typecheck`
         run: yarn typecheck
 
-      - name: determine if terraform plan is needed
-        run: |
-          if ! git diff HEAD^ HEAD --quiet ./devops/infrastructure; then
-              echo "USE_TF=true" >> "$GITHUB_ENV"
-          fi
+  plan:
+    needs: detect-changes
+    if: env.RUN_TF_PLAN == 'true'
+    runs_on: ubuntu-latest
+
+    environment:
+      name: staging
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: use terraform
-        if: env.USE_TF == 'true'
         uses: hashicorp/setup-terraform@v2
 
       - name: terraform plan

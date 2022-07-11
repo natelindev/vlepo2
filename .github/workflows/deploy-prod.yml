@@ -9,11 +9,8 @@ env:
   ENVIRONMENT: staging
 
 jobs:
-  deploy-infra:
+  detect-changes:
     runs-on: ubuntu-latest
-
-    environment:
-      name: production
 
     steps:
       - uses: actions/checkout@v3
@@ -26,28 +23,6 @@ jobs:
               echo "DEPLOY_INFRA=true" >> "$GITHUB_ENV"
           fi
 
-      - name: use terraform
-        if: env.DEPLOY_INFRA == 'true'
-        uses: hashicorp/setup-terraform@v2
-
-      - name: terraform plan
-        run: yarn plan
-
-      - name: terraform apply
-        run: yarn apply
-
-  deploy-api:
-    needs: deploy-infra
-    runs-on: ubuntu-latest
-
-    environment:
-      name: production
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-
       - name: determine if api needs to be deployed
         run: |
           if ! git diff HEAD^ HEAD --quiet ./apps/api; then
@@ -56,22 +31,9 @@ jobs:
           if ! git diff HEAD^ HEAD --quiet ./packages/helpers; then
               echo "DEPLOY_API=true" >> "$GITHUB_ENV"
           fi
-
-      - name: build api container and push to acr
-        if: env.DEPLOY_API == 'true'
-        run: ./devops/docker/deploy-api.sh
-
-  deploy-web:
-    needs: deploy-infra
-    runs-on: ubuntu-latest
-
-    environment:
-      name: production
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
+          if ! git diff HEAD^ HEAD --quiet ./devops/docker/api.dockerfile; then
+              echo "DEPLOY_API=true" >> "$GITHUB_ENV"
+          fi
 
       - name: determine if web needs to be deployed
         run: |
@@ -81,7 +43,84 @@ jobs:
           if ! git diff HEAD^ HEAD --quiet ./packages/ui; then
               echo "DEPLOY_WEB=true" >> "$GITHUB_ENV"
           fi
+          if ! git diff HEAD^ HEAD --quiet ./devops/docker/web.dockerfile; then
+              echo "DEPLOY_WEB=true" >> "$GITHUB_ENV"
+          fi
+
+  deploy-infra:
+    needs: detect-changes
+    if: env.DEPLOY_INFRA == 'true'
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: azure cli login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: use terraform
+
+        uses: hashicorp/setup-terraform@v2
+
+      - name: terraform plan
+        run: yarn plan
+
+      - name: terraform apply
+        run: yarn apply
+
+  deploy-api:
+    needs: detect-changes
+    if: env.DEPLOY_API == 'true'
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: use node.js 18
+        - uses: actions/setup-node@v3
+          with:
+            node-version: 18
+
+      - name: azure cli login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+
+      - name: build api container and push to acr
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            chmod +x $GITHUB_WORKSPACE/devops/docker/deploy-api.sh
+            $GITHUB_WORKSPACE/devops/docker/deploy-api.sh
+
+  deploy-web:
+    needs: detect-changes
+    if: env.DEPLOY_WEB == 'true'
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: azure cli login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: build web container and push to acr
-        if: env.DEPLOY_WEB == 'true'
-        run: ./devops/docker/deploy-web.sh
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            chmod +x $GITHUB_WORKSPACE/devops/docker/deploy-web.sh
+            $GITHUB_WORKSPACE/devops/docker/deploy-web.sh
