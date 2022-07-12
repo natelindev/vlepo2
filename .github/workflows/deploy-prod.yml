@@ -101,18 +101,8 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: set up qemu
-        uses: docker/setup-qemu-action@v2
-
-      - name: set up docker buildx
-        uses: docker/setup-buildx-action@v2
-
       - name: build api container and push to acr
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            chmod +x $GITHUB_WORKSPACE/devops/docker/deploy-api.sh
-            $GITHUB_WORKSPACE/devops/docker/deploy-api.sh
+        run: devops/docker/deploy-web.sh
 
   deploy-web:
     runs-on: ubuntu-latest
@@ -130,15 +120,5 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: set up qemu
-        uses: docker/setup-qemu-action@v2
-
-      - name: set up docker buildx
-        uses: docker/setup-buildx-action@v2
-
       - name: build web container and push to acr
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            chmod +x $GITHUB_WORKSPACE/devops/docker/deploy-web.sh
-            $GITHUB_WORKSPACE/devops/docker/deploy-web.sh
+        run: devops/docker/deploy-web.sh

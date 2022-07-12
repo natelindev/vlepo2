@@ -1,4 +1,4 @@
-#!/usr/bin/env -S npx ts-node --esm --compilerOptions={"module":"ESNext","target":"ESNext","moduleResolution":"node"}
+#!/usr/bin/env npx ts-node --esm --compilerOptions={"module":"ESNext","target":"ESNext","moduleResolution":"node"}
 import 'zx/globals';
 
 import { spinner } from 'zx/experimental';
