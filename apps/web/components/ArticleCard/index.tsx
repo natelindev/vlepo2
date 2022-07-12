@@ -27,7 +27,7 @@ export type ArticleCardProps = {
   post: ArticleCard_post$key;
   width?: string;
   showProfile?: boolean;
-};
+} & React.ComponentProps<typeof BaseArticleCard>;
 
 const articlePostFragment = graphql`
   fragment ArticleCard_post on Post {

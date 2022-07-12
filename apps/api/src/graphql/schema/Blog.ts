@@ -57,6 +57,9 @@ export const Blog = builder.prismaNode('Blog', {
       },
     }),
     userCount: t.int({
+      authScopes: {
+        oauth: 'blog',
+      },
       async resolve(_root, _args, ctx) {
         return ctx.prisma.user.count();
       },

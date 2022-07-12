@@ -205,7 +205,8 @@ const CommentSection = (props: CommentSectionProps) => {
                       <Image
                         src={`/images/logo/${provider}.svg`}
                         height={24}
-                        w={24}
+                        width={24}
+                        alt={provider}
                         layout="fixed"
                       />
                     </OauthButton>
