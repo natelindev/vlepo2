@@ -1,4 +1,5 @@
 if [[ $SKIP_READ_SECRETS != "true" ]]; then
+    echo "reading secrets"
     eval $(packages/scripts/index.ts azure/read-secret vlepo-env env-staging --env)
     eval $(packages/scripts/index.ts azure/read-secret vlepo-secrets acr-credentials --env)
 fi
