@@ -9,48 +9,55 @@ env:
   ENVIRONMENT: staging
 
 jobs:
-  detect-changes:
+  detect_changes:
     runs-on: ubuntu-latest
+    outputs:
+      DEPLOY_INFRA: ${{ steps.determine_infra.outputs.DEPLOY_INFRA }}
+      DEPLOY_API: ${{ steps.determine_api.outputs.DEPLOY_API }}
+      DEPLOY_WEB: ${{ steps.determine_web.outputs.DEPLOY_WEB }}
 
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 2
 
-      - name: determine if infra needs to be deployed
+      - id: determine_infra
+        name: determine if infra needs to be deployed
         run: |
           if ! git diff HEAD^ HEAD --quiet ./devops/infrastructure; then
-              echo "DEPLOY_INFRA=true" >> "$GITHUB_ENV"
+              echo "::set-output name=DEPLOY_INFRA::true"
           fi
 
-      - name: determine if api needs to be deployed
+      - id: determine_api
+        name: determine if api needs to be deployed
         run: |
           if ! git diff HEAD^ HEAD --quiet ./apps/api; then
-              echo "DEPLOY_API=true" >> "$GITHUB_ENV"
+              echo "::set-output name=DEPLOY_API::true"
           fi
           if ! git diff HEAD^ HEAD --quiet ./packages/helpers; then
-              echo "DEPLOY_API=true" >> "$GITHUB_ENV"
+              echo "::set-output name=DEPLOY_API::true"
           fi
           if ! git diff HEAD^ HEAD --quiet ./devops/docker/api.dockerfile; then
-              echo "DEPLOY_API=true" >> "$GITHUB_ENV"
+              echo "::set-output name=DEPLOY_API::true"
           fi
 
-      - name: determine if web needs to be deployed
+      - id: determine_web
+        name: determine if web needs to be deployed
         run: |
           if ! git diff HEAD^ HEAD --quiet ./apps/api; then
-              echo "DEPLOY_WEB=true" >> "$GITHUB_ENV"
+              echo "::set-output name=DEPLOY_WEB::true"
           fi
           if ! git diff HEAD^ HEAD --quiet ./packages/ui; then
-              echo "DEPLOY_WEB=true" >> "$GITHUB_ENV"
+              echo "::set-output name=DEPLOY_WEB::true"
           fi
           if ! git diff HEAD^ HEAD --quiet ./devops/docker/web.dockerfile; then
-              echo "DEPLOY_WEB=true" >> "$GITHUB_ENV"
+              echo "::set-output name=DEPLOY_WEB::true"
           fi
 
   deploy-infra:
     runs-on: ubuntu-latest
-    needs: detect-changes
-    if: ${{ env.DEPLOY_INFRA == 'true' }}
+    needs: detect_changes
+    if: ${{ needs.detect_changes.outputs.DEPLOY_INFRA == 'true' }}
 
     environment:
       name: production
@@ -75,8 +82,8 @@ jobs:
 
   deploy-api:
     runs-on: ubuntu-latest
-    needs: detect-changes
-    if: ${{ env.DEPLOY_API == 'true' }}
+    needs: detect_changes
+    if: ${{ needs.detect_changes.outputs.DEPLOY_API == 'true' }}
 
     environment:
       name: production
@@ -103,8 +110,8 @@ jobs:
 
   deploy-web:
     runs-on: ubuntu-latest
-    needs: detect-changes
-    if: ${{ env.DEPLOY_WEB == 'true' }}
+    needs: detect_changes
+    if: ${{ needs.detect_changes.outputs.DEPLOY_WEB == 'true' }}
 
     environment:
       name: production
