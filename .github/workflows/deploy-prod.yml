@@ -44,7 +44,7 @@ jobs:
       - id: determine_web
         name: determine if web needs to be deployed
         run: |
-          if ! git diff HEAD^ HEAD --quiet ./apps/api; then
+          if ! git diff HEAD^ HEAD --quiet ./apps/web; then
               echo "::set-output name=DEPLOY_WEB::true"
           fi
           if ! git diff HEAD^ HEAD --quiet ./packages/ui; then
