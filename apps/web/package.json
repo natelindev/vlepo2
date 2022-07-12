@@ -46,6 +46,7 @@
     "relay-hooks": "7.1.0",
     "relay-runtime": "14.0.0",
     "scripts": "*",
+    "sharp": "0.30.7",
     "styled-components": "5.3.5",
     "three": "0.142.0",
     "three-stdlib": "2.12.1",
