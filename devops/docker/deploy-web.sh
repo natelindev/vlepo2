@@ -1,9 +1,10 @@
-if [$SKIP_READ_SECRETS -ne 'true']; then
+if [[ $SKIP_READ_SECRETS != 'true' ]]; then
+    echo "reading secrets"
     eval $(packages/scripts/index.ts azure/read-secret vlepo-env env-staging --env)
     eval $(packages/scripts/index.ts azure/read-secret vlepo-secrets acr-credentials --env)
 fi
 
-echo $ACR_PASSWORD | docker login -u$ACR_USERNAME --password-stdin vlepoacr.azurecr.io
+echo $ACR_PASSWORD | docker login -u $ACR_USERNAME --password-stdin vlepoacr.azurecr.io
 
 echo "building vlepo services"
 docker build . -f devops/docker/web.dockerfile -t vlepoacr.azurecr.io/vlepo/web --network host \
@@ -23,7 +24,7 @@ docker build . -f devops/docker/web.dockerfile -t vlepoacr.azurecr.io/vlepo/web 
 
 # push to azure container registry
 echo "pushing to azure container registry"
-docker push vlepoacr.azurecr.io/vlepo/web
+# docker push vlepoacr.azurecr.io/vlepo/web
 
 echo "restart web"
-az webapp restart --name vlepo-web --resource-group vlepo-resources-${ENVIRONMENT}
+# az webapp restart --name vlepo-web --resource-group vlepo-resources-${ENVIRONMENT}

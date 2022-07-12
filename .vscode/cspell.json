@@ -10,6 +10,7 @@
     "bezier",
     "bodyparser",
     "brotli",
+    "buildx",
     "camelcase",
     "changefreq",
     "codegen",

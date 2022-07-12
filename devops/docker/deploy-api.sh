@@ -1,9 +1,9 @@
-if [$SKIP_READ_SECRETS -ne 'true']; then
+if [[ $SKIP_READ_SECRETS != "true" ]]; then
     eval $(packages/scripts/index.ts azure/read-secret vlepo-env env-staging --env)
     eval $(packages/scripts/index.ts azure/read-secret vlepo-secrets acr-credentials --env)
 fi
 
-echo $ACR_PASSWORD | docker login -u$ACR_USERNAME --password-stdin vlepoacr.azurecr.io
+echo $ACR_PASSWORD | docker login -u $ACR_USERNAME --password-stdin vlepoacr.azurecr.io
 
 echo "building vlepo services"
 docker build . -f devops/docker/api.dockerfile -t vlepoacr.azurecr.io/vlepo/api --network host
