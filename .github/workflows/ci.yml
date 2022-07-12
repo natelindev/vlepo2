@@ -34,7 +34,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: detect-changes
-    if: env.RUN_TEST == 'true'
+    if: ${{ env.RUN_TEST == 'true' }}
 
     steps:
       - uses: actions/checkout@v3
@@ -59,7 +59,7 @@ jobs:
   plan:
     runs-on: ubuntu-latest
     needs: detect-changes
-    if: env.RUN_TF_PLAN == 'true'
+    if: ${{ env.RUN_TF_PLAN == 'true' }}
 
     environment:
       name: staging
