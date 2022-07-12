@@ -15,8 +15,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: determine if running tests is needed
         run: |
@@ -42,9 +40,9 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: use node.js 18
-        - uses: actions/setup-node@v3
-          with:
-            node-version: 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
       - name: install dependencies
         run: yarn install --frozen-lockfile
@@ -61,7 +59,7 @@ jobs:
   plan:
     needs: detect-changes
     if: env.RUN_TF_PLAN == 'true'
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     environment:
       name: staging
