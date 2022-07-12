@@ -123,8 +123,8 @@ const BlogSection = () => {
     id: process.env.NEXT_PUBLIC_DEFAULT_BLOG_ID,
   });
 
-  if (error) return <ErrorText>{error.message}</ErrorText>;
   if (!data || !data.blog || isLoading) return <PlaceHolder />;
+  if (error) return <ErrorText>{error.message}</ErrorText>;
 
   const { postViewCount, postReactionCount, postCommentCount, userCount } = data.blog
     ? data.blog

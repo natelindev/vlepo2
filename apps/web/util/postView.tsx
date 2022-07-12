@@ -40,8 +40,8 @@ export const postViewComponent = (slug?: string) => {
       mutate({ variables: { slug: postSlug } });
     }, [postSlug, mutate]);
 
-    if (error) return <div>{error.message}</div>;
     if (!data || isLoading || !data.post || router.isFallback) return <PlaceHolder />;
+    if (error) return <div>{error.message}</div>;
 
     return <Article post={data.post} />;
   };
