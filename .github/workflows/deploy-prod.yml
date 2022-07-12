@@ -48,9 +48,9 @@ jobs:
           fi
 
   deploy-infra:
+    runs-on: ubuntu-latest
     needs: detect-changes
     if: env.DEPLOY_INFRA == 'true'
-    runs-on: ubuntu-latest
 
     environment:
       name: production
@@ -102,9 +102,9 @@ jobs:
             $GITHUB_WORKSPACE/devops/docker/deploy-api.sh
 
   deploy-web:
+    runs-on: ubuntu-latest
     needs: detect-changes
     if: env.DEPLOY_WEB == 'true'
-    runs-on: ubuntu-latest
 
     environment:
       name: production
