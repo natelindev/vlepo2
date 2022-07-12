@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { usePagination } from 'relay-hooks';
+import { usePagination, useQuery } from 'relay-hooks';
 import { fetchQuery, graphql } from 'relay-runtime';
 import { Column, ErrorText, Loading, PlaceHolder, Row, Slogan, SloganContainer } from 'ui';
 
@@ -10,7 +10,6 @@ import { ExpandMore } from '@styled-icons/material-outlined';
 import { PaperRefetchQuery } from '../__generated__/PaperRefetchQuery.graphql';
 import { papers_BlogQuery } from '../__generated__/papers_BlogQuery.graphql';
 import { papers_Papers$key } from '../__generated__/papers_Papers.graphql';
-import { useQueryFixed } from '../hooks/useQueryFixed';
 import { initEnvironment } from '../relay';
 
 const PaperCard = dynamic(() => import('../components/PaperCard'), { loading: Loading });
@@ -68,7 +67,7 @@ export const getServerSideProps = async ({ req, res }: GetServerSidePropsContext
 };
 
 const Papers = () => {
-  const { error, data, isLoading } = useQueryFixed<papers_BlogQuery>(blogQuery, {
+  const { error, data, isLoading } = useQuery<papers_BlogQuery>(blogQuery, {
     id: process.env.NEXT_PUBLIC_DEFAULT_BLOG_ID,
   });
 

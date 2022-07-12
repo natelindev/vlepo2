@@ -1,9 +1,9 @@
+import { useQuery } from 'relay-hooks';
 /* eslint-disable relay/unused-fields */
 import { graphql } from 'relay-runtime';
 import { getCookie } from 'ui';
 
 import { useCurrentUser_viewerQuery } from '../__generated__/useCurrentUser_viewerQuery.graphql';
-import { useQueryFixed } from './useQueryFixed';
 
 const viewerQuery = graphql`
   query useCurrentUser_viewerQuery {
@@ -25,7 +25,7 @@ const viewerQuery = graphql`
 `;
 
 export const useCurrentUser = () => {
-  const { data } = useQueryFixed<useCurrentUser_viewerQuery>(
+  const { data } = useQuery<useCurrentUser_viewerQuery>(
     viewerQuery,
     {},
     { skip: !getCookie<string>('accessToken')?.length },

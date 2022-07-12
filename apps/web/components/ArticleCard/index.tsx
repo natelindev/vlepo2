@@ -73,7 +73,7 @@ const ArticleCard = (props: ArticleCardProps) => {
   const createDate = parseISO(createdAt);
 
   return (
-    <BaseArticleCard {...rest} href={`/posts/${slug}`} width={width}>
+    <BaseArticleCard {...rest} href={`/posts/${slug}`} w={width}>
       {compareAsc(new Date(), addDays(createDate, 1)) === -1 && (
         <Row h="0">
           <Badge h="1.2rem" variant="accent" mt="-0.5rem" ml="auto" mr="-0.5rem">

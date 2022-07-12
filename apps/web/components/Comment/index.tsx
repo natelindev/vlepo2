@@ -1,7 +1,7 @@
 import { format, parseISO } from 'date-fns';
 import { MDXRemote } from 'next-mdx-remote';
 import React from 'react';
-import { useFragment } from 'relay-hooks';
+import { useFragment, useQuery } from 'relay-hooks';
 import { graphql } from 'relay-runtime';
 import { match } from 'ts-pattern';
 import { Avatar, Badge, H4, H5, H6, MDXComponents, Row } from 'ui';
@@ -9,7 +9,6 @@ import { Avatar, Badge, H4, H5, H6, MDXComponents, Row } from 'ui';
 import { Comment_comment$key } from '../../__generated__/Comment_comment.graphql.js';
 import { CommentQuery } from '../../__generated__/CommentQuery.graphql.js';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
-import { useQueryFixed } from '../../hooks/useQueryFixed';
 import { BaseComment, CommentContent } from './style';
 
 export const commentFragment = graphql`
@@ -45,7 +44,7 @@ const Comment = (props: CommentProps) => {
   const { variant, commentId, ...rest } = props;
   const currentUser = useCurrentUser();
 
-  const { data } = useQueryFixed<CommentQuery>(commentQuery, { id: commentId });
+  const { data } = useQuery<CommentQuery>(commentQuery, { id: commentId });
 
   const comment = useFragment<Comment_comment$key>(commentFragment, data?.comment ?? null);
 

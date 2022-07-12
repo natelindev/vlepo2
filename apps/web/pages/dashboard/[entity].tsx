@@ -3,7 +3,7 @@ import { GetServerSidePropsContext } from 'next';
 /* eslint-disable react/destructuring-assignment */
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { usePagination } from 'relay-hooks';
+import { usePagination, useQuery } from 'relay-hooks';
 import { fetchQuery, graphql } from 'relay-runtime';
 import { match } from 'ts-pattern';
 import { ClientOnly, Column, ErrorText, GradientButton, PlaceHolder, Row, Sidebar } from 'ui';
@@ -16,7 +16,6 @@ import { Entity_viewerQuery } from '../../__generated__/Entity_viewerQuery.graph
 import { PostRefetchQuery } from '../../__generated__/PostRefetchQuery.graphql';
 import PostCard from '../../components/Dashboard/PostCard';
 import CreatePostModal from '../../components/Modals/CreatePostModal';
-import { useQueryFixed } from '../../hooks/useQueryFixed';
 import { initEnvironment } from '../../relay';
 import { Container, DashboardCard, DashboardMain, Numbers, NumbersLabel } from './style';
 
@@ -94,7 +93,7 @@ const Dashboard = () => {
   const router = useRouter();
   const entity = router.query.entity as string;
 
-  const { data, isLoading } = useQueryFixed<Entity_viewerQuery>(viewerQuery);
+  const { data, isLoading } = useQuery<Entity_viewerQuery>(viewerQuery);
 
   if (!data || isLoading || !data.viewer) {
     return <PlaceHolder />;
@@ -120,7 +119,7 @@ const Dashboard = () => {
 };
 
 const BlogSection = () => {
-  const { error, data, isLoading } = useQueryFixed<Entity_blogSectionQuery>(blogSectionQuery, {
+  const { error, data, isLoading } = useQuery<Entity_blogSectionQuery>(blogSectionQuery, {
     id: process.env.NEXT_PUBLIC_DEFAULT_BLOG_ID,
   });
 
@@ -133,22 +132,22 @@ const BlogSection = () => {
 
   return (
     <Row w="100%">
-      <DashboardCard width={{ xs: '100%', sm: '50%', md: '25%' }} m={{ xs: '0rem', sm: '3rem' }}>
+      <DashboardCard w={{ xs: '100%', sm: '50%', md: '25%' }} m={{ xs: '0rem', sm: '3rem' }}>
         <Numbers>{postViewCount}</Numbers>
         <NumbersLabel>Total post views</NumbersLabel>
       </DashboardCard>
 
-      <DashboardCard width={{ xs: '100%', sm: '50%', md: '25%' }} m={{ xs: '0rem', sm: '3rem' }}>
+      <DashboardCard w={{ xs: '100%', sm: '50%', md: '25%' }} m={{ xs: '0rem', sm: '3rem' }}>
         <Numbers>{postReactionCount}</Numbers>
         <NumbersLabel>Total post reactions</NumbersLabel>
       </DashboardCard>
 
-      <DashboardCard width={{ xs: '100%', sm: '50%', md: '25%' }} m={{ xs: '0rem', sm: '3rem' }}>
+      <DashboardCard w={{ xs: '100%', sm: '50%', md: '25%' }} m={{ xs: '0rem', sm: '3rem' }}>
         <Numbers>{postCommentCount}</Numbers>
         <NumbersLabel>Total post comments</NumbersLabel>
       </DashboardCard>
 
-      <DashboardCard width={{ xs: '100%', sm: '50%', md: '25%' }} m={{ xs: '0rem', sm: '3rem' }}>
+      <DashboardCard w={{ xs: '100%', sm: '50%', md: '25%' }} m={{ xs: '0rem', sm: '3rem' }}>
         <Numbers>{userCount}</Numbers>
         <NumbersLabel>Total users</NumbersLabel>
       </DashboardCard>

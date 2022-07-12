@@ -1,14 +1,13 @@
 /* eslint-disable relay/unused-fields */
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useMutation } from 'relay-hooks';
+import { useMutation, useQuery } from 'relay-hooks';
 import { graphql } from 'relay-runtime';
 import { PlaceHolder } from 'ui';
 
 import { postViewMutation } from '../__generated__/postViewMutation.graphql';
 import { postViewQuery } from '../__generated__/postViewQuery.graphql';
 import Article from '../components/Article';
-import { useQueryFixed } from '../hooks/useQueryFixed';
 
 export const postQuery = graphql`
   query postViewQuery($slug: String!) {
@@ -29,7 +28,7 @@ export const postViewComponent = (slug?: string) => {
   const PostViewComponent = () => {
     const router = useRouter();
     const postSlug = slug ?? (router.query.postSlug as string);
-    const result = useQueryFixed<postViewQuery>(postQuery, {
+    const result = useQuery<postViewQuery>(postQuery, {
       slug: postSlug,
     });
 

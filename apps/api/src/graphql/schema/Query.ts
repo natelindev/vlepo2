@@ -62,8 +62,14 @@ export const Query = builder.queryType({
       },
     }),
     user: t.field({
-      authScopes: {
-        oauth: 'user',
+      authScopes: (_parent, args, ctx) => {
+        if (ctx.currentUser?.id === args.id.id) {
+          // allow querying the current user
+          return true;
+        }
+        return {
+          oauth: 'user',
+        };
       },
       type: User,
       nullable: true,

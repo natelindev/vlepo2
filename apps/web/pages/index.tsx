@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import dynamic from 'next/dynamic';
-import { useFragment } from 'relay-hooks';
+import { useFragment, useQuery } from 'relay-hooks';
 import { fetchQuery, graphql } from 'relay-runtime';
 import { Card, ClientOnly, ErrorText, H2, H3, Loading, PlaceHolder, Row } from 'ui';
 
@@ -11,7 +11,6 @@ import { pages_Index_BlogQuery } from '../__generated__/pages_Index_BlogQuery.gr
 import { pages_Index_Papers$key } from '../__generated__/pages_Index_Papers.graphql';
 import { pages_Index_Posts$key } from '../__generated__/pages_Index_Posts.graphql';
 import { pages_Index_Projects$key } from '../__generated__/pages_Index_Projects.graphql';
-import { useQueryFixed } from '../hooks/useQueryFixed';
 import { initEnvironment } from '../relay';
 
 import type { GetServerSidePropsContext } from 'next';
@@ -312,7 +311,7 @@ const CanvasContainer = styled(x.div)`
 `;
 
 export default function Home() {
-  const { error, data } = useQueryFixed<pages_Index_BlogQuery>(blogQuery, {
+  const { error, data } = useQuery<pages_Index_BlogQuery>(blogQuery, {
     id: process.env.NEXT_PUBLIC_DEFAULT_BLOG_ID,
   });
 

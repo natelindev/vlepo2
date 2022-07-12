@@ -4,9 +4,7 @@ import { connectionBuilder } from '../util/connectionBuilder.js';
 
 export const UserRole = builder.prismaNode('UserRole', {
   id: { field: 'id' },
-  authScopes: {
-    oauth: 'user_role',
-  },
+  authScopes: { loggedIn: true },
   fields: (t) => ({
     name: t.exposeString('name'),
     value: t.exposeString('value'),

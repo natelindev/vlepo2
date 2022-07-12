@@ -1,7 +1,7 @@
 import { Masonry, useInfiniteLoader } from 'masonic';
 import dynamic from 'next/dynamic';
 import React from 'react';
-import { usePagination } from 'relay-hooks';
+import { usePagination, useQuery } from 'relay-hooks';
 import { fetchQuery, graphql } from 'relay-runtime';
 import { ClientOnly, ErrorText, Loading, PlaceHolder, Slogan, SloganContainer } from 'ui';
 
@@ -11,7 +11,6 @@ import { ArticleCard_post$key } from '../__generated__/ArticleCard_post.graphql'
 import { posts_BlogQuery } from '../__generated__/posts_BlogQuery.graphql';
 import { posts_Posts$key } from '../__generated__/posts_Posts.graphql';
 import { postsPostRefetchQuery } from '../__generated__/postsPostRefetchQuery.graphql';
-import { useQueryFixed } from '../hooks/useQueryFixed';
 import { initEnvironment } from '../relay';
 
 import type { GetServerSidePropsContext } from 'next';
@@ -89,7 +88,7 @@ type MasonryCardProps = { data: ArticleCard_post$key; width: number };
 
 const MasonryCard: React.FC<MasonryCardProps> = (props: MasonryCardProps) => {
   const { data, width } = props;
-  return <ArticleCard width={`${width}px`} post={data} />;
+  return <ArticleCard w={`${width}px`} post={data} />;
 };
 
 type PostSectionProps = {
@@ -129,7 +128,7 @@ const PostsSection = (props: PostSectionProps) => {
 };
 
 export default function Home() {
-  const { error, data } = useQueryFixed<posts_BlogQuery>(blogQuery, {
+  const { error, data } = useQuery<posts_BlogQuery>(blogQuery, {
     id: process.env.NEXT_PUBLIC_DEFAULT_BLOG_ID,
   });
 

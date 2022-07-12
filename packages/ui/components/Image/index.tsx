@@ -33,8 +33,8 @@ const Image = (props: ImageProps) => {
   } = props;
   return (
     <ImageContainer
-      width={width}
-      height={height}
+      w={width}
+      h={height}
       borderRadius={borderRadius}
       color={src ? 'whiteText' : 'text'}
       textShadow={textShadow}

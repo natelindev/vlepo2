@@ -1,8 +1,8 @@
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import { useQuery } from 'relay-hooks';
 import { graphql } from 'relay-runtime';
 import { ClientOnly, ErrorText, Loading, PlaceHolder } from 'ui';
-import { useQueryFixed } from '../hooks/useQueryFixed';
 
 import { tags_BlogQuery } from '../__generated__/tags_BlogQuery.graphql';
 
@@ -16,7 +16,7 @@ const blogQuery = graphql`
 
 const TagsScene = dynamic(() => import('../scenes/tags'), { loading: Loading, ssr: false });
 const Tags = () => {
-  const { error, data, isLoading } = useQueryFixed<tags_BlogQuery>(blogQuery, {
+  const { error, data, isLoading } = useQuery<tags_BlogQuery>(blogQuery, {
     id: process.env.NEXT_PUBLIC_DEFAULT_BLOG_ID,
   });
 

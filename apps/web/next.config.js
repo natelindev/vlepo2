@@ -34,7 +34,7 @@ if (bundleAnalyzerEnabled) {
  * */
 const config = {
   output: 'standalone',
-  reactStrictMode: true,
+  // reactStrictMode: true,
   images: {
     domains: [
       process.env.NEXT_PUBLIC_CDN_URL,

@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useQuery } from 'relay-hooks';
 import { graphql } from 'relay-runtime';
 import { Avatar, Card, Column, ErrorText, H2, H4, PlaceHolder, Row } from 'ui';
 
@@ -6,7 +7,6 @@ import styled from '@xstyled/styled-components';
 
 import { profile_userQuery } from '../../../__generated__/profile_userQuery.graphql';
 import CommentSection from '../../../components/Comment/CommentSection';
-import { useQueryFixed } from '../../../hooks/useQueryFixed';
 
 const UserCard = styled(Card)`
   flex-direction: column;
@@ -26,7 +26,7 @@ const profileUserQuery = graphql`
 const Profile = () => {
   const router = useRouter();
   const userId = router.query.userId as string;
-  const { data, isLoading, error } = useQueryFixed<profile_userQuery>(profileUserQuery, {
+  const { data, isLoading, error } = useQuery<profile_userQuery>(profileUserQuery, {
     id: userId,
   });
 
