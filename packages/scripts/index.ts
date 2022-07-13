@@ -35,7 +35,6 @@ const functionMap: Record<string, { message: string; func: Function }> = {
 
 const { message, func } = functionMap[argv.f];
 
-console.log(JSON.stringify(argv));
 if (message && func) {
   await spinner(message, async () => {
     await func(...argv.p.split(','));
