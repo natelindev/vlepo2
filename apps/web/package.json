@@ -8,7 +8,7 @@
     "clean": "rm -rf .turbo && rm -rf .next && rm __generated__/*",
     "dev": "next dev",
     "generate": "relay-compiler",
-    "generate:ci": "touch persistedQueries.json && mkdir __generated__  && relay-compiler",
+    "generate:ci": "touch persistedQueries.json && mkdir -p __generated__  && relay-compiler",
     "lint": "next lint",
     "start": "next start",
     "test": "jest --watch",

@@ -21,9 +21,9 @@ docker build . -f devops/docker/web.dockerfile -t vlepoacr.azurecr.io/vlepo/web 
 
 # push to azure container registry
 echo "pushing to azure container registry"
-docker push vlepoacr.azurecr.io/vlepo/web
+# docker push vlepoacr.azurecr.io/vlepo/web
 
-if [[ $SKIP_RESTART != 'true' ]]; then
-    echo "restart web"
-    az webapp restart --name vlepo-web --resource-group vlepo-resources-${ENVIRONMENT}
-fi
+# if [[ $SKIP_RESTART != 'true' ]]; then
+#     echo "restart web"
+#     az webapp restart --name vlepo-web --resource-group vlepo-resources-${ENVIRONMENT}
+# fi
