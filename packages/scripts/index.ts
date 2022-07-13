@@ -40,5 +40,5 @@ if (message && func) {
     await func(...argv.p.split(','));
   });
 } else {
-  console.log(`unknown action: ${process.argv[2]}`);
+  console.log(`unknown action: ${argv.f}`);
 }
