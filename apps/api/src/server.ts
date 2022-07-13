@@ -171,7 +171,7 @@ export const runServer = async (): Promise<() => Promise<void>> => {
       ApolloServerPluginDrainHttpServer({ httpServer }),
     ],
     formatError: (error: GraphQLError) => {
-      log.error(error.extensions.exception?.stacktrace?.join('\n'));
+      log.error(error.extensions.exception?.stacktrace?.join('\n') ?? error.message);
       return {
         message: error.message,
         stack: envDetect.isDev ? error.extensions.exception?.stacktrace : undefined,

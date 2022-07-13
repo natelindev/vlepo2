@@ -4,13 +4,6 @@
 
 import { PrismaClient } from '@prisma/client';
 
-// import { getSecret } from './util/getSecret.js';
-
-// if (!envDetect.isDev) {
-//   const secrets = await getSecret({ vaultName: 'vlepo-secrets', secretName: 'db-credentials' });
-//   process.env.DATABASE_URL = secrets.DB_CONNECTION_STRING;
-// }
-
 const prisma = new PrismaClient();
 
 // add __typename for graphql nexus use
