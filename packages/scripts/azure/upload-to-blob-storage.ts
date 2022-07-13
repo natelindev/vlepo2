@@ -55,5 +55,5 @@ export const uploadToBlobStorage = async (
     }
   };
 
-  recursiveUpload(targetFileLocation, containerClient);
+  // recursiveUpload(targetFileLocation, containerClient);
 };
