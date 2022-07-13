@@ -45,6 +45,12 @@ if (message && func) {
   );
   console.log('process.argv lengths: ');
   console.log(process.argv.map((p: string) => p.length).join(','));
+  console.log(`process.env lengths:`);
+  console.log(
+    Object.entries(process.env)
+      .map(([key, value]) => `${key}: ${value?.length}`)
+      .join(','),
+  );
   await spinner(message, async () => {
     await func(...argv.p.split(','));
   });
