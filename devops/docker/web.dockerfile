@@ -10,7 +10,7 @@ RUN turbo prune --scope=web --docker
 FROM base AS deps
 COPY --from=pruner /app/out/json/ .
 COPY --from=pruner /app/out/yarn.lock ./yarn.lock
-# RUN yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile
 
 FROM base AS builder
 
