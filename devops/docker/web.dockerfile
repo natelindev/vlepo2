@@ -30,7 +30,7 @@ RUN yarn install --frozen-lockfile
 FROM base AS builder
 COPY --from=deps /app/ .
 COPY --from=pruner /app/out/full/ .
-RUN yarn generate
+RUN yarn generate:ci
 RUN ENV=DOCKER \
     NEXT_PUBLIC_ALGOLIA_API_KEY=${NEXT_PUBLIC_ALGOLIA_API_KEY} \
     NEXT_PUBLIC_ALGOLIA_APP_ID=${NEXT_PUBLIC_ALGOLIA_APP_ID} \

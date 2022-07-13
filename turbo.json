@@ -18,6 +18,9 @@
     "generate": {
       "cache": false
     },
+    "generate:ci": {
+      "cache": false
+    },
     "dev": {
       "cache": false
     },
@@ -25,5 +28,5 @@
       "cache": false
     }
   },
-  "globalDependencies": [".env", "tsconfig.json", "$GITHUB_TOKEN"]
+  "globalDependencies": ["tsconfig.json", "$GITHUB_TOKEN"]
 }
