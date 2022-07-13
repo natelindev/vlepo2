@@ -33,7 +33,7 @@ ARG NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS
 
 COPY --from=deps /app/ .
 COPY --from=pruner /app/out/full/ .
-# RUN yarn generate:ci
+RUN yarn generate:ci
 RUN ENV=DOCKER \
     NEXT_PUBLIC_ALGOLIA_API_KEY=${NEXT_PUBLIC_ALGOLIA_API_KEY} \
     NEXT_PUBLIC_ALGOLIA_APP_ID=${NEXT_PUBLIC_ALGOLIA_APP_ID} \
