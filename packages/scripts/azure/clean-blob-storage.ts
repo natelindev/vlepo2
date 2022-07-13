@@ -6,21 +6,29 @@ import { findMissingFieldNames, hasFields } from 'helpers';
 
 import { BlobServiceClient, StorageSharedKeyCredential } from '@azure/storage-blob';
 
-export const cleanBlobStorage = async (containerName: string) => {
-  const requiredFields = ['AZURE_STORAGE_ACCOUNT', 'AZURE_STORAGE_ACCOUNT_KEY'];
-  if (!hasFields(process.env, requiredFields)) {
+export const cleanBlobStorage = async (
+  account: string,
+  accountKey: string,
+  containerName: string,
+) => {
+  const requiredFields = ['account', 'accountKey', 'containerName'];
+  if (!account || !accountKey || !containerName) {
     throw new Error(
-      `Missing required fields: ${findMissingFieldNames(process.env, requiredFields)}`,
+      `Missing required fields: ${findMissingFieldNames(
+        {
+          account,
+          accountKey,
+          containerName,
+        },
+        requiredFields as ['account', 'accountKey', 'containerName'],
+      )}`,
     );
   }
 
-  const sharedKeyCredential = new StorageSharedKeyCredential(
-    process.env.AZURE_STORAGE_ACCOUNT,
-    process.env.AZURE_STORAGE_ACCOUNT_KEY,
-  );
+  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   const blobServiceClient = new BlobServiceClient(
-    `https://${process.env.AZURE_STORAGE_ACCOUNT}.blob.core.windows.net`,
+    `https://${account}.blob.core.windows.net`,
     sharedKeyCredential,
   );
 
