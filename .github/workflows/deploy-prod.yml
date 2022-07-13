@@ -110,7 +110,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: build api container and push to acr
-        run: devops/docker/deploy-web.sh
+        run: devops/docker/deploy-api.sh
         env:
           SKIP_READ_SECRETS: true
 
