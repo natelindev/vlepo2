@@ -3,10 +3,6 @@ if [[ $SKIP_READ_SECRETS != 'true' ]]; then
     eval $(packages/scripts/index.ts azure/read-secret vlepo-secrets acr-credentials --env)
 fi
 
-echo "shell script level env"
-echo -n "${AZURE_STORAGE_ACCOUNT}" | wc -m;
-echo -n "${AZURE_STORAGE_ACCOUNT_KEY}" | wc -m;
-
 echo "building vlepo services"
 docker build . -f devops/docker/web.dockerfile -t vlepoacr.azurecr.io/vlepo/web --network host \
 --build-arg AZURE_STORAGE_ACCOUNT="$AZURE_STORAGE_ACCOUNT" \

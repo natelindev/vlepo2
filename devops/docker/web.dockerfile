@@ -1,21 +1,6 @@
 FROM --platform=linux/amd64 node:current-alpine AS base
 RUN apk update
 WORKDIR /app
-# CDN upload keys
-ARG AZURE_STORAGE_ACCOUNT
-ARG AZURE_STORAGE_ACCOUNT_KEY
-# build args
-ARG NEXT_PUBLIC_ALGOLIA_API_KEY
-ARG NEXT_PUBLIC_ALGOLIA_APP_ID
-ARG NEXT_PUBLIC_ALGOLIA_INDEX_NAME
-ARG NEXT_PUBLIC_API_ENDPOINT
-ARG NEXT_PUBLIC_CDN_URL
-ARG NEXT_PUBLIC_DEFAULT_BLOG_ID
-ARG NEXT_PUBLIC_DEFAULT_BLOG_NAME
-ARG NEXT_PUBLIC_DEFAULT_BLOG_SLOGAN
-ARG NEXT_PUBLIC_DEFAULT_CLIENT_ID
-ARG NEXT_PUBLIC_SITE_URL
-ARG NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS
 
 FROM base AS pruner
 RUN yarn global add turbo@latest
@@ -28,6 +13,24 @@ COPY --from=pruner /app/out/yarn.lock ./yarn.lock
 # RUN yarn install --frozen-lockfile
 
 FROM base AS builder
+
+# CDN upload keys
+ARG AZURE_STORAGE_ACCOUNT
+ARG AZURE_STORAGE_ACCOUNT_KEY
+
+# nextjs build args
+ARG NEXT_PUBLIC_ALGOLIA_API_KEY
+ARG NEXT_PUBLIC_ALGOLIA_APP_ID
+ARG NEXT_PUBLIC_ALGOLIA_INDEX_NAME
+ARG NEXT_PUBLIC_API_ENDPOINT
+ARG NEXT_PUBLIC_CDN_URL
+ARG NEXT_PUBLIC_DEFAULT_BLOG_ID
+ARG NEXT_PUBLIC_DEFAULT_BLOG_NAME
+ARG NEXT_PUBLIC_DEFAULT_BLOG_SLOGAN
+ARG NEXT_PUBLIC_DEFAULT_CLIENT_ID
+ARG NEXT_PUBLIC_SITE_URL
+ARG NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS
+
 COPY --from=deps /app/ .
 COPY --from=pruner /app/out/full/ .
 # RUN yarn generate:ci
@@ -51,9 +54,9 @@ RUN echo -n "${AZURE_STORAGE_ACCOUNT_KEY}" | wc -m;
 
 # upload nextjs static assets to CDN
 # clean up old assets
-RUN AZURE_STORAGE_ACCOUNT=${AZURE_STORAGE_ACCOUNT} AZURE_STORAGE_ACCOUNT_KEY=${AZURE_STORAGE_ACCOUNT_KEY} ./node_modules/.bin/ts-node -P ./packages/scripts/tsconfig.json --esm ./packages/scripts/index.ts -f azure/clean-blob-storage -p ${AZURE_STORAGE_ACCOUNT},${AZURE_STORAGE_ACCOUNT_KEY},next
+# RUN AZURE_STORAGE_ACCOUNT=${AZURE_STORAGE_ACCOUNT} AZURE_STORAGE_ACCOUNT_KEY=${AZURE_STORAGE_ACCOUNT_KEY} ./node_modules/.bin/ts-node -P ./packages/scripts/tsconfig.json --esm ./packages/scripts/index.ts -f azure/clean-blob-storage -p ${AZURE_STORAGE_ACCOUNT},${AZURE_STORAGE_ACCOUNT_KEY},next
 # upload new assets
-RUN AZURE_STORAGE_ACCOUNT=${AZURE_STORAGE_ACCOUNT} AZURE_STORAGE_ACCOUNT_KEY=${AZURE_STORAGE_ACCOUNT_KEY} ./node_modules/.bin/ts-node -P ./packages/scripts/tsconfig.json --esm ./packages/scripts/index.ts -f azure/upload-to-blob-storage -p ${AZURE_STORAGE_ACCOUNT},${AZURE_STORAGE_ACCOUNT_KEY},next,apps/web/.next/static,_next/static
+# RUN AZURE_STORAGE_ACCOUNT=${AZURE_STORAGE_ACCOUNT} AZURE_STORAGE_ACCOUNT_KEY=${AZURE_STORAGE_ACCOUNT_KEY} ./node_modules/.bin/ts-node -P ./packages/scripts/tsconfig.json --esm ./packages/scripts/index.ts -f azure/upload-to-blob-storage -p ${AZURE_STORAGE_ACCOUNT},${AZURE_STORAGE_ACCOUNT_KEY},next,apps/web/.next/static,_next/static
 
 FROM base AS runner
 
