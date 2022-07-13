@@ -36,6 +36,15 @@ const functionMap: Record<string, { message: string; func: Function }> = {
 const { message, func } = functionMap[argv.f];
 
 if (message && func) {
+  console.log('argv lengths: ');
+  console.log(
+    argv.p
+      .split(',')
+      .map((p: string) => p.length)
+      .join(','),
+  );
+  console.log('process.argv lengths: ');
+  console.log(process.argv.map((p: string) => p.length).join(','));
   await spinner(message, async () => {
     await func(...argv.p.split(','));
   });
