@@ -3,8 +3,6 @@ if [[ $SKIP_READ_SECRETS != 'true' ]]; then
     eval $(packages/scripts/index.ts azure/read-secret vlepo-secrets acr-credentials --env)
 fi
 
-echo $ACR_PASSWORD | docker login -u $ACR_USERNAME --password-stdin vlepoacr.azurecr.io
-
 echo "building vlepo services"
 docker build . -f devops/docker/web.dockerfile -t vlepoacr.azurecr.io/vlepo/web --network host \
 --build-arg AZURE_STORAGE_ACCOUNT="$AZURE_STORAGE_ACCOUNT" \
@@ -23,8 +21,7 @@ docker build . -f devops/docker/web.dockerfile -t vlepoacr.azurecr.io/vlepo/web 
 
 # push to azure container registry
 echo "pushing to azure container registry"
-# docker push vlepoacr.azurecr.io/vlepo/web
-
+docker push vlepoacr.azurecr.io/vlepo/web
 
 if [[ $SKIP_RESTART != 'true' ]]; then
     echo "restart web"

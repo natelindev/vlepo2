@@ -99,16 +99,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: azure cli login
-        uses: azure/login@v1
+      - uses: azure/docker-login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          login-server: vlepoacr.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
       - name: build api container and push to acr
         run: devops/docker/deploy-api.sh
         env:
           SKIP_READ_SECRETS: true
           SKIP_RESTART: true
+
+      - name: azure cli login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: restart api service after build
         uses: azure/CLI@v1
@@ -127,10 +133,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: azure cli login
-        uses: azure/login@v1
+      - uses: azure/docker-login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          login-server: vlepoacr.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
       - name: build web container and push to acr
         run: devops/docker/deploy-web.sh
@@ -150,6 +157,11 @@ jobs:
           NEXT_PUBLIC_DEFAULT_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_DEFAULT_CLIENT_ID }}
           NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
           NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS: ${{ secrets.NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS }}
+
+      - name: azure cli login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: restart web service after build
         uses: azure/CLI@v1
