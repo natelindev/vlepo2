@@ -46,10 +46,10 @@ RUN ENV=DOCKER \
     yarn turbo run build --scope=web --include-dependencies --no-deps
 
 # upload nextjs static assets to CDN
-RUN AZURE_STORAGE_ACCOUNT=${AZURE_STORAGE_ACCOUNT} AZURE_STORAGE_ACCOUNT_KEY=${AZURE_STORAGE_ACCOUNT_KEY} && \
-    yarn cdn:clean
-RUN AZURE_STORAGE_ACCOUNT=${AZURE_STORAGE_ACCOUNT} AZURE_STORAGE_ACCOUNT_KEY=${AZURE_STORAGE_ACCOUNT_KEY} && \
-    yarn cdn:upload
+# clean up old assets
+RUN yarn ts-node -P ./packages/scripts/tsconfig.json --esm ./packages/scripts/index.ts azure/clean-blob-storage ${AZURE_STORAGE_ACCOUNT} ${AZURE_STORAGE_ACCOUNT_KEY} next
+# upload new assets
+RUN yarn ts-node -P ./packages/scripts/tsconfig.json --esm ./packages/scripts/index.ts azure/upload-to-blob-storage ${AZURE_STORAGE_ACCOUNT} ${AZURE_STORAGE_ACCOUNT_KEY} next apps/web/.next/static _next/static
 
 FROM base AS runner
 
