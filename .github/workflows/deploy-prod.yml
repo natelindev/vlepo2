@@ -99,11 +99,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: use node.js 18
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
       - name: build api container and push to acr
         run: devops/docker/deploy-api.sh
         env:
