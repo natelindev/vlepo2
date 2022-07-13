@@ -47,9 +47,9 @@ RUN ENV=DOCKER \
 
 # upload nextjs static assets to CDN
 # clean up old assets
-RUN yarn ts-node -P ./packages/scripts/tsconfig.json --esm ./packages/scripts/index.ts azure/clean-blob-storage ${AZURE_STORAGE_ACCOUNT} ${AZURE_STORAGE_ACCOUNT_KEY} next
+RUN yarn ts-node -P ./packages/scripts/tsconfig.json --esm ./packages/scripts/index.ts -f azure/clean-blob-storage -p ${AZURE_STORAGE_ACCOUNT},${AZURE_STORAGE_ACCOUNT_KEY},next
 # upload new assets
-RUN yarn ts-node -P ./packages/scripts/tsconfig.json --esm ./packages/scripts/index.ts azure/upload-to-blob-storage ${AZURE_STORAGE_ACCOUNT} ${AZURE_STORAGE_ACCOUNT_KEY} next apps/web/.next/static _next/static
+RUN yarn ts-node -P ./packages/scripts/tsconfig.json --esm ./packages/scripts/index.ts -f azure/upload-to-blob-storage -p ${AZURE_STORAGE_ACCOUNT},${AZURE_STORAGE_ACCOUNT_KEY},next,apps/web/.next/static,_next/static
 
 FROM base AS runner
 

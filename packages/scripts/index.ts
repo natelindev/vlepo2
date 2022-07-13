@@ -12,31 +12,33 @@ import { writeSecret } from './azure/write-secret.js';
 // eslint-disable-next-line @typescript-eslint/ban-types
 const functionMap: Record<string, { message: string; func: Function }> = {
   'azure/upload-to-blob-storage': {
-    message: `uploading to ${process.argv[3]} Azure Blob Storage container ${process.argv[4]}`,
+    message: `uploading to azure blob storage container`,
     func: uploadToBlobStorage,
   },
   'azure/clean-blob-storage': {
-    message: `cleaning Azure Blob Storage container ${process.argv[3]}`,
+    message: `cleaning azure blob storage container`,
     func: cleanBlobStorage,
   },
   'azure/read-secret': {
-    message: `reading secrets from ${process.argv[3]}/${process.argv[4]}`,
+    message: `reading secrets`,
     func: readSecret,
   },
   'azure/write-secret': {
-    message: `writing secrets to ${process.argv[3]}/${process.argv[4]}`,
+    message: `writing secrets`,
     func: writeSecret,
   },
   'azure/clear-secret': {
-    message: `clearing secrets from ${process.argv[3]}/${process.argv[4]}`,
+    message: `clearing secrets`,
     func: clearSecret,
   },
 };
 
-const { message, func } = functionMap[process.argv[2]];
+const { message, func } = functionMap[argv.f];
+
+console.log(JSON.stringify(argv));
 if (message && func) {
   await spinner(message, async () => {
-    await func(...process.argv.slice(3));
+    await func(...argv.p.split(','));
   });
 } else {
   console.log(`unknown action: ${process.argv[2]}`);
