@@ -76,9 +76,17 @@ jobs:
 
       - name: terraform plan
         run: yarn plan
+        env:
+          TF_VAR_DB_TUNNEL_IP: ${{ secrets.TF_VAR_DB_TUNNEL_IP }}
+          TF_VAR_ENVIRONMENT: ${{ secrets.TF_VAR_ENVIRONMENT }}
+          TF_VAR_USER_PRINCIPAL_ID: ${{ secrets.TF_VAR_USER_PRINCIPAL_ID }}
 
       - name: terraform apply
         run: yarn apply
+        env:
+          TF_VAR_DB_TUNNEL_IP: ${{ secrets.TF_VAR_DB_TUNNEL_IP }}
+          TF_VAR_ENVIRONMENT: ${{ secrets.TF_VAR_ENVIRONMENT }}
+          TF_VAR_USER_PRINCIPAL_ID: ${{ secrets.TF_VAR_USER_PRINCIPAL_ID }}
 
   deploy-api:
     runs-on: ubuntu-latest
@@ -101,14 +109,10 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: set up qemu
-        uses: docker/setup-qemu-action@v2
-
-      - name: set up docker buildx
-        uses: docker/setup-buildx-action@v2
-
       - name: build api container and push to acr
         run: devops/docker/deploy-web.sh
+        env:
+          SKIP_READ_SECRETS: true
 
   deploy-web:
     runs-on: ubuntu-latest
@@ -126,11 +130,20 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: set up qemu
-        uses: docker/setup-qemu-action@v2
-
-      - name: set up docker buildx
-        uses: docker/setup-buildx-action@v2
-
       - name: build web container and push to acr
         run: devops/docker/deploy-web.sh
+        env:
+          SKIP_READ_SECRETS: true
+          AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
+          AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+          NEXT_PUBLIC_ALGOLIA_API_KEY: ${{ secrets.NEXT_PUBLIC_ALGOLIA_API_KEY }}
+          NEXT_PUBLIC_ALGOLIA_APP_ID: ${{ secrets.NEXT_PUBLIC_ALGOLIA_APP_ID }}
+          NEXT_PUBLIC_ALGOLIA_INDEX_NAME: ${{ secrets.NEXT_PUBLIC_ALGOLIA_INDEX_NAME }}
+          NEXT_PUBLIC_API_ENDPOINT: ${{ secrets.NEXT_PUBLIC_API_ENDPOINT }}
+          NEXT_PUBLIC_CDN_URL: ${{ secrets.NEXT_PUBLIC_CDN_URL }}
+          NEXT_PUBLIC_DEFAULT_BLOG_ID: ${{ secrets.NEXT_PUBLIC_DEFAULT_BLOG_ID }}
+          NEXT_PUBLIC_DEFAULT_BLOG_NAME: ${{ secrets.NEXT_PUBLIC_DEFAULT_BLOG_NAME }}
+          NEXT_PUBLIC_DEFAULT_BLOG_SLOGAN: ${{ secrets.NEXT_PUBLIC_DEFAULT_BLOG_SLOGAN }}
+          NEXT_PUBLIC_DEFAULT_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_DEFAULT_CLIENT_ID }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS: ${{ secrets.NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS }}

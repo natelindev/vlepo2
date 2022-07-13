@@ -82,3 +82,7 @@ jobs:
 
       - name: terraform plan
         run: yarn plan
+        env:
+          TF_VAR_DB_TUNNEL_IP: ${{ secrets.TF_VAR_DB_TUNNEL_IP }}
+          TF_VAR_ENVIRONMENT: ${{ secrets.TF_VAR_ENVIRONMENT }}
+          TF_VAR_USER_PRINCIPAL_ID: ${{ secrets.TF_VAR_USER_PRINCIPAL_ID }}
