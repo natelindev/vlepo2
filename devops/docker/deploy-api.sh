@@ -13,4 +13,6 @@ echo "pushing to azure container registry"
 docker push vlepoacr.azurecr.io/vlepo/api
 
 echo "restart api"
-az webapp restart --name vlepo-api --resource-group vlepo-resources-${ENVIRONMENT}
+if [[ $SKIP_RESTART != 'true' ]]; then
+    az webapp restart --name vlepo-api --resource-group vlepo-resources-${ENVIRONMENT}
+fi

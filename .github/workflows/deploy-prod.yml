@@ -104,15 +104,22 @@ jobs:
         with:
           node-version: 18
 
+      - name: build api container and push to acr
+        run: devops/docker/deploy-api.sh
+        env:
+          SKIP_READ_SECRETS: true
+          SKIP_RESTART: true
+
       - name: azure cli login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: build api container and push to acr
-        run: devops/docker/deploy-api.sh
-        env:
-          SKIP_READ_SECRETS: true
+      - name: restart api service after build
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az webapp restart --name vlepo-api --resource-group vlepo-resources-${ENVIRONMENT}
 
   deploy-web:
     runs-on: ubuntu-latest
@@ -125,15 +132,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: azure cli login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       - name: build web container and push to acr
         run: devops/docker/deploy-web.sh
         env:
           SKIP_READ_SECRETS: true
+          SKIP_RESTART: true
           AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
           AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
           NEXT_PUBLIC_ALGOLIA_API_KEY: ${{ secrets.NEXT_PUBLIC_ALGOLIA_API_KEY }}
@@ -147,3 +150,14 @@ jobs:
           NEXT_PUBLIC_DEFAULT_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_DEFAULT_CLIENT_ID }}
           NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
           NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS: ${{ secrets.NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS }}
+
+      - name: azure cli login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: restart web service after build
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az webapp restart --name vlepo-web --resource-group vlepo-resources-${ENVIRONMENT}

@@ -1,5 +1,4 @@
 if [[ $SKIP_READ_SECRETS != 'true' ]]; then
-    echo "reading secrets"
     eval $(packages/scripts/index.ts azure/read-secret vlepo-env env-staging --env)
     eval $(packages/scripts/index.ts azure/read-secret vlepo-secrets acr-credentials --env)
 fi
@@ -27,4 +26,6 @@ echo "pushing to azure container registry"
 # docker push vlepoacr.azurecr.io/vlepo/web
 
 echo "restart web"
-# az webapp restart --name vlepo-web --resource-group vlepo-resources-${ENVIRONMENT}
+if [[ $SKIP_RESTART != 'true' ]]; then
+    az webapp restart --name vlepo-web --resource-group vlepo-resources-${ENVIRONMENT}
+fi
