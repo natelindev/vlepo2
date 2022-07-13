@@ -12,48 +12,32 @@ import { writeSecret } from './azure/write-secret.js';
 // eslint-disable-next-line @typescript-eslint/ban-types
 const functionMap: Record<string, { message: string; func: Function }> = {
   'azure/upload-to-blob-storage': {
-    message: `uploading to azure blob storage container`,
+    message: `uploading to ${process.argv[3]} Azure Blob Storage container ${process.argv[4]}`,
     func: uploadToBlobStorage,
   },
   'azure/clean-blob-storage': {
-    message: `cleaning azure blob storage container`,
+    message: `cleaning Azure Blob Storage container ${process.argv[3]}`,
     func: cleanBlobStorage,
   },
   'azure/read-secret': {
-    message: `reading secrets`,
+    message: `reading secrets from ${process.argv[3]}/${process.argv[4]}`,
     func: readSecret,
   },
   'azure/write-secret': {
-    message: `writing secrets`,
+    message: `writing secrets to ${process.argv[3]}/${process.argv[4]}`,
     func: writeSecret,
   },
   'azure/clear-secret': {
-    message: `clearing secrets`,
+    message: `clearing secrets from ${process.argv[3]}/${process.argv[4]}`,
     func: clearSecret,
   },
 };
 
-const { message, func } = functionMap[argv.f];
-
+const { message, func } = functionMap[process.argv[2]];
 if (message && func) {
-  console.log('argv lengths: ');
-  console.log(
-    argv.p
-      .split(',')
-      .map((p: string) => p.length)
-      .join(','),
-  );
-  console.log('process.argv lengths: ');
-  console.log(process.argv.map((p: string) => p.length).join(','));
-  console.log(`process.env lengths:`);
-  console.log(
-    Object.entries(process.env)
-      .map(([key, value]) => `${key}: ${value?.length}`)
-      .join(','),
-  );
   await spinner(message, async () => {
-    await func(...argv.p.split(','));
+    await func(...process.argv.slice(3));
   });
 } else {
-  console.log(`unknown action: ${argv.f}`);
+  console.log(`unknown action: ${process.argv[2]}`);
 }
