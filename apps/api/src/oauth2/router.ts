@@ -1,6 +1,6 @@
 import { add } from 'date-fns';
 import grantProfile from 'grant/config/profile.json' assert { type: 'json' };
-import Router from 'koa-router';
+import Router from '@koa/router';
 import log from 'loglevel';
 import fetch from 'node-fetch';
 import { match } from 'ts-pattern';
