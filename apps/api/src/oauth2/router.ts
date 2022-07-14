@@ -220,6 +220,18 @@ router.get('/callback', async (ctx) => {
       if (existingUser) {
         return existingUser;
       }
+      const htmlEncodingMap = {
+        '&quot;': '"',
+        '&#39;': "'",
+        '&amp;': '&',
+        '&lt;': '<',
+        '&gt;': '>',
+      };
+      // unescape html entities
+      const profileImageUrl = profile.icon_img.replaceAll(
+        /&(?:amp|lt|gt|quot|#39);/g,
+        (match) => htmlEncodingMap[match as keyof typeof htmlEncodingMap],
+      );
       return ctx.prisma.user.create({
         data: {
           name: profile.name,
@@ -231,7 +243,7 @@ router.get('/callback', async (ctx) => {
             },
           },
           provider,
-          profileImageUrl: profile.icon_img,
+          profileImageUrl,
         },
         include: {
           roles: true,
