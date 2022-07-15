@@ -11,7 +11,7 @@ import { initEnvironment } from '../../relay';
 const blogQuery = graphql`
   query serverSitemapXml_BlogQuery($id: ID!) {
     blog(id: $id) {
-      postsConnection {
+      postsConnection(first: 9999) {
         edges {
           node {
             slug

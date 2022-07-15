@@ -9,9 +9,9 @@ module.exports = {
   schema: `${__dirname}/schema/schema.graphql`,
   persistConfig: {
     file:
-      process.env.NODE_ENV === 'development'
-        ? `${__dirname}/../api/src/persistedQueries.json`
-        : './persistedQueries.json',
+      process.env.ENV === 'DOCKER'
+        ? './persistedQueries.json'
+        : `${__dirname}/../api/src/persistedQueries.json`,
     algorithm: 'SHA256',
   },
   exclude: [
