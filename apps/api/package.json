@@ -74,7 +74,7 @@
     "eslint-config-custom-server": "*",
     "nodemon": "2.0.19",
     "prisma": "4.0.0",
-    "ts-node": "10.9.0",
+    "ts-node": "10.9.1",
     "tsconfig": "*",
     "typescript": "4.7.4"
   },

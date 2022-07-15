@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 import 'zx/globals';
 
-import { findMissingFieldNames, hasFields } from 'helpers';
+import { findMissingFieldNames } from 'helpers';
 
 import { BlobServiceClient, StorageSharedKeyCredential } from '@azure/storage-blob';
 

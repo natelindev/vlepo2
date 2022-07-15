@@ -1,3 +1,7 @@
+#!/bin/bash
+set -e
+set -o pipefail
+
 if [[ $SKIP_READ_SECRETS != 'true' ]]; then
     eval $(packages/scripts/index.ts azure/read-secret vlepo-env env-staging --env)
     eval $(packages/scripts/index.ts azure/read-secret vlepo-secrets acr-credentials --env)

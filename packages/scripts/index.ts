@@ -12,11 +12,11 @@ import { writeSecret } from './azure/write-secret.js';
 // eslint-disable-next-line @typescript-eslint/ban-types
 const functionMap: Record<string, { message: string; func: Function }> = {
   'azure/upload-to-blob-storage': {
-    message: `uploading to ${process.argv[3]} Azure Blob Storage container ${process.argv[4]}`,
+    message: `uploading to ${process.argv[5]} Azure Blob Storage container ${process.argv[6]}`,
     func: uploadToBlobStorage,
   },
   'azure/clean-blob-storage': {
-    message: `cleaning Azure Blob Storage container ${process.argv[3]}`,
+    message: `cleaning Azure Blob Storage container ${process.argv[5]}`,
     func: cleanBlobStorage,
   },
   'azure/read-secret': {
