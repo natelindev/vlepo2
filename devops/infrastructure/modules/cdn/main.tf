@@ -30,7 +30,7 @@ resource "azurerm_frontdoor" "vlepofd" {
     name               = "static"
     accepted_protocols = ["Https"]
     patterns_to_match  = ["/images/*", "/models/*", "/user-images/*", "/next/*"]
-    frontend_endpoints = ["vlepoFrontendEndpointCustom"]
+    frontend_endpoints = ["vlepoFrontendEndpointDefault", "vlepoFrontendEndpointCustom"]
     forwarding_configuration {
       forwarding_protocol           = "HttpsOnly"
       backend_pool_name             = "vlepoBackendPoolStatic"
@@ -43,7 +43,7 @@ resource "azurerm_frontdoor" "vlepofd" {
     name               = "api"
     accepted_protocols = ["Https"]
     patterns_to_match  = ["/api/*", "/graphql"]
-    frontend_endpoints = ["vlepoFrontendEndpointCustom"]
+    frontend_endpoints = ["vlepoFrontendEndpointDefault", "vlepoFrontendEndpointCustom"]
     forwarding_configuration {
       forwarding_protocol = "HttpsOnly"
       backend_pool_name   = "vlepoBackendPoolApi"
@@ -54,7 +54,7 @@ resource "azurerm_frontdoor" "vlepofd" {
     name               = "web"
     accepted_protocols = ["Https"]
     patterns_to_match  = ["/*"]
-    frontend_endpoints = ["vlepoFrontendEndpointCustom"]
+    frontend_endpoints = ["vlepoFrontendEndpointDefault", "vlepoFrontendEndpointCustom"]
     forwarding_configuration {
       forwarding_protocol = "HttpsOnly"
       backend_pool_name   = "vlepoBackendPoolWeb"
@@ -65,7 +65,7 @@ resource "azurerm_frontdoor" "vlepofd" {
     name               = "httpsRedirect"
     accepted_protocols = ["Http"]
     patterns_to_match  = ["/*"]
-    frontend_endpoints = ["vlepoFrontendEndpointCustom"]
+    frontend_endpoints = ["vlepoFrontendEndpointDefault", "vlepoFrontendEndpointCustom"]
     redirect_configuration {
       redirect_protocol = "HttpsOnly"
       redirect_type     = "PermanentRedirect"
@@ -138,6 +138,11 @@ resource "azurerm_frontdoor" "vlepofd" {
 
     load_balancing_name = "vlepoLoadBalancingDefault"
     health_probe_name   = "vlepoHealthProbeDefault"
+  }
+
+  frontend_endpoint {
+    name      = "vlepoFrontendEndpointDefault"
+    host_name = "vlepo-fd.azurefd.net"
   }
 
   frontend_endpoint {
