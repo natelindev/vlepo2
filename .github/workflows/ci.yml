@@ -72,8 +72,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: use terraform
-        uses: hashicorp/setup-terraform@v2
+      - uses: hashicorp/setup-terraform@v2
 
       - name: terraform plan
         run: yarn plan
