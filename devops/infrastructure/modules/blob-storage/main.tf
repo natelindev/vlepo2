@@ -19,7 +19,7 @@ resource "azurerm_storage_account" "multimedia" {
     cors_rule {
       allowed_headers    = ["*"]
       allowed_methods    = ["GET", "HEAD", "POST", "OPTIONS", "PUT"]
-      allowed_origins    = ["*"]
+      allowed_origins    = ["https://blog.nate-lin.com"]
       exposed_headers    = ["*"]
       max_age_in_seconds = 300
     }
