@@ -59,6 +59,11 @@ jobs:
     needs: detect_changes
     if: ${{ needs.detect_changes.outputs.DEPLOY_INFRA == 'true' }}
     env:
+      ARM_CLIENT_ID: ${{ secrets.AZ_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZ_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZ_SUBSCRIPTION_ID}}
+      ARM_TENANT_ID: ${{ secrets.AZ_TENANT_ID }}
+      ARM_ACCESS_KEY: ${{ secrets.AZ_ACCESS_KEY }}
       TF_VAR_DB_TUNNEL_IP: ${{ secrets.TF_VAR_DB_TUNNEL_IP }}
       TF_VAR_ENVIRONMENT: ${{ secrets.TF_VAR_ENVIRONMENT }}
       TF_VAR_USER_PRINCIPAL_ID: ${{ secrets.TF_VAR_USER_PRINCIPAL_ID }}
@@ -69,14 +74,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: azure cli login
-        uses: azure/login@v1
-        with:
-          creds: '{"clientId":"${{ secrets.AZ_CLIENT_ID }}","clientSecret":"${{ secrets.AZ_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZ_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZ_TENANT_ID }}"}'
-
-      - name: use terraform
-
-        uses: hashicorp/setup-terraform@v2
+      - uses: hashicorp/setup-terraform@v2
 
       - name: terraform plan
         run: yarn plan
@@ -108,9 +106,9 @@ jobs:
           SKIP_RESTART: true
 
       - name: azure cli login
-        uses: azure/login@v1
+      - uses: Azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: '{"clientId":"${{ secrets.AZ_CLIENT_ID }}","clientSecret":"${{ secrets.AZ_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZ_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZ_TENANT_ID }}"}'
 
       - name: restart api service after build
         uses: azure/CLI@v1
@@ -155,9 +153,9 @@ jobs:
           NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS: ${{ secrets.NEXT_PUBLIC_SUPPORTED_OAUTH_PROVIDERS }}
 
       - name: azure cli login
-        uses: azure/login@v1
+        uses: Azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: '{"clientId":"${{ secrets.AZ_CLIENT_ID }}","clientSecret":"${{ secrets.AZ_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZ_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZ_TENANT_ID }}"}'
 
       - name: restart web service after build
         uses: azure/CLI@v1
