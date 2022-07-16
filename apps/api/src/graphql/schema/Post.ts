@@ -198,6 +198,7 @@ export const createPost = builder.mutationField('createPost', (t) =>
         ctx.searchIndex.saveObject({
           objectID: post.id,
           ...post,
+          __type: 'Post',
           content: undefined,
         });
       }
