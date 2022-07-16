@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+set -o pipefail
 
 cd devops/tfstate
 terraform init -backend-config=./${ENVIRONMENT}.conf -reconfigure
