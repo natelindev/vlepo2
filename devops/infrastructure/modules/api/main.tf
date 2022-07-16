@@ -53,7 +53,7 @@ resource "azurerm_linux_web_app" "vlepo_api" {
   site_config {
     health_check_path = "/.well-known/apollo/server-health"
     application_stack {
-      docker_image     = "vlepoacr.azurecr.io/vlepo/api"
+      docker_image     = "${data.azurerm_container_registry.vlepo_acr.name}.azurecr.io/vlepo/api"
       docker_image_tag = "latest"
     }
   }

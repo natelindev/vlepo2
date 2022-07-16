@@ -53,7 +53,7 @@ resource "azurerm_linux_web_app" "vlepo_web" {
   site_config {
     health_check_path = "/health"
     application_stack {
-      docker_image     = "vlepoacr.azurecr.io/vlepo/web"
+      docker_image     = "${data.azurerm_container_registry.vlepo_acr.name}.azurecr.io/vlepo/web"
       docker_image_tag = "latest"
     }
   }
