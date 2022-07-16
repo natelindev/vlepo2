@@ -54,7 +54,7 @@ jobs:
               echo "::set-output name=DEPLOY_WEB::true"
           fi
 
-  deploy-infra:
+  deploy_infra:
     runs-on: ubuntu-latest
     needs: detect_changes
     if: ${{ needs.detect_changes.outputs.DEPLOY_INFRA == 'true' }}
@@ -82,9 +82,9 @@ jobs:
       - name: terraform apply
         run: yarn apply
 
-  deploy-api:
+  deploy_api:
     runs-on: ubuntu-latest
-    needs: detect_changes
+    needs: [detect_changes, deploy_infra]
     if: ${{ needs.detect_changes.outputs.DEPLOY_API == 'true' }}
 
     environment:
@@ -116,9 +116,9 @@ jobs:
           inlineScript: |
             az webapp restart --name vlepo-api --resource-group vlepo-resources-${ENVIRONMENT}
 
-  deploy-web:
+  deploy_web:
     runs-on: ubuntu-latest
-    needs: detect_changes
+    needs: [detect_changes, deploy_infra]
     if: ${{ needs.detect_changes.outputs.DEPLOY_WEB == 'true' }}
 
     environment:
