@@ -1,5 +1,6 @@
 import argon2 from 'argon2';
 import { add } from 'date-fns';
+import { envDetect } from 'helpers';
 import { match, Pattern } from 'ts-pattern';
 
 import { OAuthClient } from '@prisma/client';
@@ -70,7 +71,7 @@ export const login = builder.relayMutationField(
               u,
             );
             ctx.cookies.set('accessToken', accessToken, {
-              secure: false,
+              secure: envDetect.isProd,
               httpOnly: false,
               expires: expiresAt,
             });
