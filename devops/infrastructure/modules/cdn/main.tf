@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.12.0"
+      version = "=3.15.0"
     }
   }
 }
@@ -21,6 +21,118 @@ data "azurerm_linux_web_app" "vlepo_web" {
   name                = "vlepo-web"
   resource_group_name = var.resource_group_name
 }
+
+# TODO: use new front door after rest of resources released
+
+# resource "azurerm_cdn_frontdoor_profile" "vlepofd" {
+#   name                = "vlepofd-cdn-profile"
+#   resource_group_name = var.resource_group_name
+#   sku_name            = "Standard_AzureFrontDoor"
+# }
+
+# resource "azurerm_cdn_frontdoor_endpoint" "vlepofd" {
+#   name                     = "vlepofd-endpoint"
+#   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.vlepofd.id
+# }
+
+# resource "azurerm_cdn_endpoint_custom_domain" "vlepofd" {
+#   name            = "vlepofd-custom-domain"
+#   cdn_endpoint_id = azurerm_cdn_frontdoor_endpoint.vlepofd.id
+#   host_name       = "blog.nate-lin.com"
+#   cdn_managed_https {
+#     certificate_type = "Shared"
+#     protocol_type    = "ServerNameIndication"
+#   }
+# }
+
+# resource "azurerm_cdn_frontdoor_origin_group" "web" {
+#   name                     = "vlepo-web-group"
+#   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.vlepofd.id
+# }
+
+# resource "azurerm_cdn_frontdoor_origin_group" "api" {
+#   name                     = "vlepo-api-group"
+#   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.vlepofd.id
+# }
+
+# resource "azurerm_cdn_frontdoor_origin_group" "static" {
+#   name                     = "vlepo-static-group"
+#   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.vlepofd.id
+# }
+
+# resource "azurerm_cdn_frontdoor_origin" "web" {
+#   name                          = "static-origin"
+#   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web.id
+
+#   health_probes_enabled          = true
+#   certificate_name_check_enabled = true
+#   host_name                      = data.azurerm_linux_web_app.vlepo_web.default_hostname
+#   origin_host_header             = data.azurerm_linux_web_app.vlepo_web.default_hostname
+#   priority                       = 1
+#   weight                         = 40
+
+#   health_probe {
+#     interval_in_seconds = 240
+#     path                = "/health"
+#     protocol            = "Https"
+#   }
+# }
+
+# resource "azurerm_cdn_frontdoor_origin" "api" {
+#   name                                  = "api-origin"
+#   cdn_frontdoor_profile_origin_group_id = azurerm_cdn_frontdoor_origin_group.api.id
+
+#   health_probes_enabled          = true
+#   certificate_name_check_enabled = true
+#   host_name                      = data.azurerm_linux_web_app.vlepo_api.default_hostname
+#   origin_host_header             = data.azurerm_linux_web_app.vlepo_api.default_hostname
+#   priority                       = 2
+#   weight                         = 30
+
+#   health_probe {
+#     interval_in_seconds = 240
+#     path                = "/.well-known/apollo/server-health"
+#     protocol            = "Https"
+#   }
+# }
+
+# resource "azurerm_cdn_frontdoor_origin" "static" {
+#   name                          = "static-origin"
+#   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.static.id
+
+#   health_probes_enabled          = true
+#   certificate_name_check_enabled = true
+#   host_name                      = data.azurerm_storage_account.vlepomm.primary_blob_host
+#   origin_host_header             = data.azurerm_storage_account.vlepomm.primary_blob_host
+#   priority                       = 3
+#   weight                         = 30
+# }
+
+# resource "azurerm_cdn_frontdoor_rule_set" "vlepo" {
+#   name                     = "vlepo-rule-set"
+#   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.vlepofd.id
+# }
+
+# resource "azurerm_cdn_frontdoor_rule" "static" {
+#   name                          = "vlepofd-rule-static"
+#   cdn_frontdoor_ruleset_id      = azurerm_cdn_frontdoor_rule_set.vlepo.id
+#   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.static.id
+#   patterns                      = ["/images/*", "/models/*", "/user-images/*", "/next/*"]
+# }
+
+# resource "azurerm_cdn_frontdoor_rule" "api" {
+#   name                          = "vlepofd-rule-static"
+#   cdn_frontdoor_ruleset_id      = azurerm_cdn_frontdoor_rule_set.vlepo.id
+#   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.api.id
+#   patterns                      = ["/api/*", "/graphql"]
+# }
+
+# resource "azurerm_cdn_frontdoor_rule" "web" {
+#   name                          = "vlepofd-rule-static"
+#   cdn_frontdoor_ruleset_id      = azurerm_cdn_frontdoor_rule_set.vlepo.id
+#   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web.id
+#   patterns                      = ["/*"]
+# }
 
 resource "azurerm_frontdoor" "vlepofd" {
   name                = "vlepo-fd"
@@ -58,17 +170,6 @@ resource "azurerm_frontdoor" "vlepofd" {
     forwarding_configuration {
       forwarding_protocol = "HttpsOnly"
       backend_pool_name   = "vlepoBackendPoolWeb"
-    }
-  }
-
-  routing_rule {
-    name               = "httpsRedirect"
-    accepted_protocols = ["Http"]
-    patterns_to_match  = ["/*"]
-    frontend_endpoints = ["vlepoFrontendEndpointDefault", "vlepoFrontendEndpointCustom"]
-    redirect_configuration {
-      redirect_protocol = "HttpsOnly"
-      redirect_type     = "PermanentRedirect"
     }
   }
 
