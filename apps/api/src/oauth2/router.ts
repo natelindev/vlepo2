@@ -11,7 +11,6 @@ import { ExtendedContext } from '../server.js';
 import { generateAccessToken, saveToken } from './model.js';
 
 import type { DefaultState } from 'koa';
-import { envDetect } from 'helpers';
 
 const router = new Router<DefaultState, ExtendedContext>({
   prefix: '/api/oauth2',
@@ -322,7 +321,7 @@ router.get('/callback', async (ctx) => {
     }
 
     ctx.cookies.set('accessToken', accessToken, {
-      secure: envDetect.isProd,
+      secure: false,
       httpOnly: false,
     });
     return ctx.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/oauth2-redirect?success=true`);
