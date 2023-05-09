@@ -1,10 +1,8 @@
 // relay.config.js
 // @ts-check
 
-/**
- * @type import("relay-compiler/lib/bin/RelayCompilerMain").Config
- */
 module.exports = {
+  src: `${__dirname}/src`,
   language: 'typescript',
   schema: `${__dirname}/schema/schema.graphql`,
   persistConfig: {

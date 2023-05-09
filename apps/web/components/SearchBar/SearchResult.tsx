@@ -24,7 +24,7 @@ const ResultCard = (props: ResultCardProps) => {
     <BaseResultCard {...rest}>
       {children}
       {href ? (
-        <Link href={href} passHref>
+        <Link href={href} passHref legacyBehavior>
           <OverlayLink />
         </Link>
       ) : null}

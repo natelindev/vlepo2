@@ -19,7 +19,7 @@ const Card = React.forwardRef((props: CardProps, ref: React.Ref<HTMLDivElement>)
     <BaseCard ref={ref} {...rest}>
       {children}
       {href ? (
-        <Link href={href} passHref>
+        <Link href={href} passHref legacyBehavior>
           {external ? (
             <OverlayExternalLink aria-label={ariaLabel} />
           ) : (

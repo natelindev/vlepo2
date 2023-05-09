@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const path = require('path');
+const relay = require('./relay.config.js');
 
 // @ts-check
 const isProd = process.env.NODE_ENV === 'production' || process.env.ENV === 'PROD';
@@ -72,6 +73,23 @@ const config = {
     ignoreDuringBuilds: !isDev,
   },
   poweredByHeader: false,
+  compiler: {
+    removeConsole: true,
+    styledComponents: {
+      topLevelImportPaths: [
+        '@xstyled/styled-components',
+        '@xstyled/styled-components/no-tags',
+        '@xstyled/styled-components/native',
+        '@xstyled/styled-components/primitives',
+      ],
+    },
+    relay: {
+      // This should match relay.config.js
+      src: relay.src,
+      artifactDirectory: relay.artifactDirectory,
+      language: 'typescript',
+    },
+  },
   // Proxy to Backend
   async rewrites() {
     return isDev

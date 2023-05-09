@@ -5,6 +5,7 @@ import { spinner } from 'zx/experimental';
 
 import { cleanBlobStorage } from './azure/clean-blob-storage.js';
 import { clearSecret } from './azure/clear-secret.js';
+import { downloadAllBlobs } from './azure/download-blobs.js';
 import { readSecret } from './azure/read-secret.js';
 import { uploadToBlobStorage } from './azure/upload-to-blob-storage.js';
 import { writeSecret } from './azure/write-secret.js';
@@ -30,6 +31,10 @@ const functionMap: Record<string, { message: string; func: Function }> = {
   'azure/clear-secret': {
     message: `clearing secrets from ${process.argv[3]}/${process.argv[4]}`,
     func: clearSecret,
+  },
+  'azure/download-blobs': {
+    message: `downloading blobs from ${process.argv[3]}/${process.argv[4]}`,
+    func: downloadAllBlobs,
   },
 };
 

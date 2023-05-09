@@ -98,7 +98,7 @@ const Navbar: React.FC = () => {
           mr="0.5rem"
           my="auto"
         />
-        <Link href="/" passHref>
+        <Link href="/" passHref legacyBehavior>
           <NavBrand
             display={{ xs: showSearch ? 'none' : 'inline-block', md: 'inline-block' }}
             href="/"

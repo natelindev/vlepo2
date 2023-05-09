@@ -51,10 +51,10 @@ type SetCookieOptions = {
 };
 
 export const deleteCookie = (name: string) => {
-  setCookie('', name, { days: 0 });
+  setCookie(name, '', { days: 0 });
 };
 
-export const setCookie = <T = unknown>(value: T, name: string, options?: SetCookieOptions) => {
+export const setCookie = <T = unknown>(name: string, value: T, options?: SetCookieOptions) => {
   const { days = 7, path = '/', encode = JSON.stringify } = options || {};
 
   const expires = new Date(Date.now() + days * 864e5).toUTCString();
@@ -73,7 +73,7 @@ export const useCookie = <T = unknown>(
   const [cookieValue, setCookieValue] = useState<T | undefined>(getCookie(name, options));
 
   const setCookieAndState = (value: T, options: SetCookieOptions) => {
-    setCookie(value, name, options);
+    setCookie(name, value, options);
     setCookieValue(value);
   };
   return [cookieValue, setCookieAndState];

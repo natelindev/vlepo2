@@ -12,7 +12,7 @@ type TagProps = {
 const Tag = (props: TagProps): React.ReactElement => {
   const { name, href, mainColor, secondaryColor } = props;
   return (
-    <Link href={href} passHref>
+    <Link href={href} passHref legacyBehavior>
       <BaseTag mainColor={mainColor} secondaryColor={secondaryColor}>
         {name}
       </BaseTag>

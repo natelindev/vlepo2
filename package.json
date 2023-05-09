@@ -14,6 +14,7 @@
     "cdn:upload": "yarn ts-node -P ./packages/scripts/tsconfig.json --esm ./packages/scripts/index.ts azure/upload-to-blob-storage ${AZURE_STORAGE_ACCOUNT} ${AZURE_STORAGE_ACCOUNT_KEY} next apps/web/.next/static _next/static",
     "clean": "turbo run clean",
     "deploy:api": "devops/docker/deploy-api.sh",
+    "deploy:raw": "devops/native/deploy-raw.yml",
     "deploy:web": "devops/docker/deploy-web.sh",
     "destroy": "./devops/scripts/destroy.sh",
     "dev": "turbo run dev --parallel",
@@ -27,11 +28,11 @@
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
-    "prettier": "2.7.1",
-    "prisma": "4.2.1",
-    "sort-package-json": "1.57.0",
+    "prettier": "2.8.8",
+    "prisma": "4.13.0",
+    "sort-package-json": "2.4.1",
     "ts-node": "10.9.1",
-    "turbo": "1.4.3"
+    "turbo": "1.9.3"
   },
   "packageManager": "yarn@1.22.19",
   "engines": {

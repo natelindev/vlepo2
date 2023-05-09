@@ -13,7 +13,7 @@ export default function NavLink(props: NavLinkProps): React.ReactElement {
   const router = useRouter();
   const { href, children, active = router.pathname === href, ...rest } = props;
   return href ? (
-    <Link href={href} passHref>
+    <Link href={href} passHref legacyBehavior>
       <BaseNavLink active={active} {...rest}>
         {children}
       </BaseNavLink>

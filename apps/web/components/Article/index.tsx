@@ -88,7 +88,7 @@ const Article = (props: ArticleProps) => {
 
   return (
     <>
-      <NextSeo
+      {/* <NextSeo
         title={title}
         description={abstract ?? undefined}
         canonical={fullUrl}
@@ -130,7 +130,7 @@ const Article = (props: ArticleProps) => {
           site: process.env.NEXT_PUBLIC_TWITTER_HANDLE,
           cardType: 'summary_large_image',
         }}
-      />
+      /> */}
       <Header h={{ xs: '18rem', sm: '20rem', md: '22rem' }}>
         <Image
           objectFit="cover"

@@ -23,7 +23,13 @@ const GradientButton = (props: GradientButtonProps) => {
   return (
     <BaseGradientButton colorA={colorA} colorB={colorB} {...rest}>
       <GradientButtonContent>
-        {link ? <Link href={link}>{children}</Link> : children}
+        {link ? (
+          <Link legacyBehavior href={link}>
+            {children}
+          </Link>
+        ) : (
+          children
+        )}
       </GradientButtonContent>
     </BaseGradientButton>
   );

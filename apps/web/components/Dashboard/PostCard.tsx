@@ -61,7 +61,7 @@ const PostCard = (props: PostCardProps) => {
       </Row>
       <Row>
         <Section mr="auto" my="auto" flexDirection="column" justifyContent="center">
-          <Link href={`/posts/${slug}`} passHref>
+          <Link href={`/posts/${slug}`} passHref legacyBehavior>
             <Title>{title}</Title>
           </Link>
           <Row mt="auto">

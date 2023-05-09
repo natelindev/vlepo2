@@ -61,7 +61,7 @@ const Sidebar = (props: SidebarProps): React.ReactElement => {
 
       <SidebarGroup>
         {['blog', 'post'].map((e) => (
-          <Link key={e} href={`/dashboard/${e}`} passHref>
+          <Link key={e} href={`/dashboard/${e}`} passHref legacyBehavior>
             <SidebarItem active={router.pathname === `/dashboard/${e}`}>
               {e.charAt(0).toUpperCase()}
               {e.slice(1)}

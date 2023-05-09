@@ -1,8 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/no-array-index-key */
-import Highlight, { defaultProps, Language } from 'prism-react-renderer';
-import vsDark from 'prism-react-renderer/themes/vsDark';
-import vsLight from 'prism-react-renderer/themes/vsLight';
+import { Highlight, themes } from 'prism-react-renderer';
 import React, { useState } from 'react';
 
 import { useColorMode, useTheme } from '@xstyled/styled-components';
@@ -18,19 +16,19 @@ const CodeBlock = (props: CodeBlockProps) => {
     props: { className, children: code = '' },
   } = children;
 
-  const language = className?.replace(/language-/, '') as Language;
+  const language = className?.replace(/language-/, '');
   const theme = useTheme();
   const [colorMode] = useColorMode();
   const [copyButtonText, setCopyButtonText] = useState('copy');
-  const badgeColor = Object.keys(LanguageColors).includes(language)
-    ? LanguageColors[language as keyof typeof LanguageColors]
-    : theme.colors.accent;
+  const badgeColor =
+    (Object.keys(LanguageColors).includes(language)
+      ? LanguageColors[language as keyof typeof LanguageColors]
+      : theme?.colors.accent) || '#333333';
   return (
     <Highlight
-      {...defaultProps}
       code={code}
       language={language}
-      theme={colorMode === 'dark' ? vsDark : vsLight}
+      theme={colorMode === 'dark' ? themes.vsDark : themes.vsLight}
     >
       {({ tokens, getLineProps, getTokenProps }) => (
         <Pre mx="1rem" w="100%">
@@ -50,7 +48,10 @@ const CodeBlock = (props: CodeBlockProps) => {
               px="0.5rem"
               py="0.1rem"
               bg={badgeColor}
-              color={isBright(badgeColor) ? theme.colors.blackText : theme.colors.whiteText}
+              color={
+                (isBright(badgeColor) ? theme?.colors.blackText : theme?.colors.whiteText) ||
+                '#ffffff'
+              }
             >
               {language}
             </LanguageBadge>

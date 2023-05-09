@@ -34,7 +34,7 @@ export const AnimatedExternalLink = (props: React.ComponentProps<typeof Animated
   return <AnimatedLink target="_blank" rel="noopener noreferrer" {...props} />;
 };
 
-export const OverlayLink = styled(x.a)`
+export const OverlayLink = styled(x.div)`
   font-size: 0;
   position: absolute;
   top: 0;
