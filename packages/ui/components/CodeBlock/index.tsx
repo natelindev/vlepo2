@@ -3,7 +3,8 @@
 import { Highlight, themes } from 'prism-react-renderer';
 import React, { useState } from 'react';
 
-import { useColorMode, useTheme } from '@xstyled/styled-components';
+import { Theme, useColorMode, useTheme } from '@xstyled/styled-components';
+import { Color, SystemProp } from '@xstyled/system';
 
 import { isBright } from '../../util/colorUtil';
 import { CopyButton, LanguageBadge, LanguageColors, Pre } from './style';
@@ -49,8 +50,8 @@ const CodeBlock = (props: CodeBlockProps) => {
               py="0.1rem"
               bg={badgeColor}
               color={
-                (isBright(badgeColor) ? theme?.colors.blackText : theme?.colors.whiteText) ||
-                '#ffffff'
+                ((isBright(badgeColor) ? theme?.colors.blackText : theme?.colors.whiteText) ||
+                  '#ffffff') as SystemProp<Color<Theme>, Theme>
               }
             >
               {language}

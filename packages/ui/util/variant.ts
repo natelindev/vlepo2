@@ -2,16 +2,16 @@ import { assign, getThemeValue, is, merge, Path, warn } from '@xstyled/util';
 
 export const variant: ({
   key,
-  default: defaultValue,
+  defaultValue,
   variants,
   prop,
 }: {
   key?: null | undefined;
-  default: Path;
+  defaultValue: Path;
   variants?: Record<string, unknown> | undefined;
   prop?: string | undefined;
 }) => (props: Record<string, Path>) => unknown =
-  ({ key = null, default: defaultValue, variants = {}, prop = 'variant' }) =>
+  ({ key = null, defaultValue, variants = {}, prop = 'variant' }) =>
   (props) => {
     const themeVariants = is(key) ? getThemeValue(props, key) : null;
     const computedVariants = merge(assign({}, variants), themeVariants);

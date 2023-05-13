@@ -29,7 +29,7 @@ const Avatar = (props: AvatarProps) => {
 
   return (
     <BaseAvatar size={size} {...rest}>
-      <Image src={src ?? '/images/avatar/bot.svg'} layout="fixed" height={size} width={size} />
+      <Image src={src ?? '/images/avatar/bot.svg'} height={size} width={size} alt="avatar" />
     </BaseAvatar>
   );
 };

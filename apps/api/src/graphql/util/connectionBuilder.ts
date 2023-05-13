@@ -10,6 +10,7 @@ import {
 import { ArgBuilder } from '@pothos/core';
 
 import { ExtendedContext } from '../../server.js';
+import { SchemaTypes } from '../builder.js';
 import { CommentsConnection } from '../schema/Comment.js';
 import { OrderBy } from '../schema/Node.js';
 import { RatingsConnection } from '../schema/Rating.js';
@@ -71,7 +72,7 @@ export const connectionBuilder = <
   args: {
     orderBy: t.arg({ type: [OrderBy] }),
   },
-  query: (args: { orderBy: unknown }) => ({
+  query: (args: { orderBy?: unknown }) => ({
     ...additionalArgs,
     orderBy: orderByArgs(args.orderBy as orderByType),
   }),
@@ -79,12 +80,13 @@ export const connectionBuilder = <
 });
 
 export const rawConnectionBuilder = <
-  DBType extends { createdAt: unknown; updatedAt: unknown } = {
-    createdAt: unknown;
-    updatedAt: unknown;
+  DBType extends { createdAt?: unknown; updatedAt?: unknown } = {
+    createdAt?: unknown;
+    updatedAt?: unknown;
   },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  T extends { arg: ArgBuilder<any> } = { arg: ArgBuilder<any> },
+  T extends { arg: ArgBuilder<PothosSchemaTypes.ExtendDefaultTypes<SchemaTypes>> } = {
+    arg: ArgBuilder<PothosSchemaTypes.ExtendDefaultTypes<SchemaTypes>>;
+  },
 >(
   t: T,
   variant: 'comment' | 'reaction' | 'share' | 'tag' | 'rating',

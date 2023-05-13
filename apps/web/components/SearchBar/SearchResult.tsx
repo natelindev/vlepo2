@@ -5,8 +5,12 @@ import { OverlayLink } from 'ui';
 import styled from '@xstyled/styled-components';
 
 type SearchResultProp = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  hit: any;
+  hit: {
+    __typename: string;
+    slug: string;
+    title: string;
+    content: string;
+  };
 };
 
 const BaseResultCard = styled.div`

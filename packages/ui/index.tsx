@@ -40,7 +40,9 @@ export {
 
 export { CardBody, CardImage } from './components/Card/style';
 
-export { Input, InputGroup, Label, ErrorText, Form, TextArea } from './components/Input';
+export { Input, InputGroup, Label, ErrorText, Form } from './components/Input';
+
+export { TextArea } from './components/Input/TextArea';
 
 export { OauthButton, OauthButtonSection } from './components/Button';
 

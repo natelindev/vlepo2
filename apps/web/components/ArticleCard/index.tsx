@@ -107,6 +107,7 @@ const ArticleCard = (props: ArticleCardProps) => {
                 layout="fixed"
                 height="36"
                 width="36"
+                alt="author profile image"
               />
             </AuthorProfileImageContainer>
             <Column>

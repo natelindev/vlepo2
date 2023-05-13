@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { getServerSideSitemap } from 'next-sitemap';
+import { getServerSideSitemapLegacy } from 'next-sitemap';
 import { fetchQuery, graphql } from 'relay-runtime';
 
 import {
@@ -50,7 +50,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       priority: 0.5,
     }));
 
-  return getServerSideSitemap(ctx, fields);
+  return getServerSideSitemapLegacy(ctx, fields);
 };
 
 // Default export to prevent next.js errors

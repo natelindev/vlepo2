@@ -28,5 +28,6 @@
       "cache": false
     }
   },
-  "globalDependencies": ["tsconfig.json", "$GITHUB_TOKEN"]
+  "globalDependencies": ["tsconfig.json"],
+  "globalEnv": ["GITHUB_TOKEN"]
 }

@@ -118,7 +118,12 @@ const LoginModal = (props: LoginModalProps) => {
                   )
                 }
               >
-                <Image src={`/images/logo/${provider}.svg`} height={24} width={24} layout="fixed" />
+                <Image
+                  src={`/images/logo/${provider}.svg`}
+                  height={24}
+                  width={24}
+                  alt={`${provider} logo`}
+                />
               </OauthButton>
             ))}
         </OauthButtonSection>

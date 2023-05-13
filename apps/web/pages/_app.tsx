@@ -28,7 +28,7 @@ function App({ Component, pageProps }: PageProps) {
           <ToastProvider autoDismiss autoDismissTimeout={6000} placement="top-right">
             <ToastContainer />
             <Layout>
-              {/* <DefaultSeo
+              <DefaultSeo
                 openGraph={{
                   type: 'website',
                   locale: 'en_US',
@@ -40,7 +40,7 @@ function App({ Component, pageProps }: PageProps) {
                   site: process.env.NEXT_PUBLIC_TWITTER_HANDLE,
                   cardType: 'summary_large_image',
                 }}
-              /> */}
+              />
               <Component {...pageProps} />
             </Layout>
           </ToastProvider>

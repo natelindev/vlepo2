@@ -210,6 +210,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
             layout="responsive"
             width={2}
             height={1}
+            alt="header image for post to be created"
           />
         )}
         <InputGroup>

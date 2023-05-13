@@ -19,7 +19,7 @@ type authScopes = {
   oauth: string | string[];
 };
 
-export const builder = new SchemaBuilder<{
+export type SchemaTypes = {
   AuthScopes: authScopes;
   DefaultEdgesNullability: {
     list: false;
@@ -45,11 +45,13 @@ export const builder = new SchemaBuilder<{
       Output: void;
     };
   };
-}>({
+};
+
+export const builder = new SchemaBuilder<SchemaTypes>({
   plugins: [
     ScopeAuthPlugin,
     RelayPlugin,
-    ValidationPlugin,
+    // ValidationPlugin,
     WithInputPlugin,
     PrismaPlugin,
     SimpleObjectsPlugin,

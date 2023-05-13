@@ -2,7 +2,7 @@
 // @ts-check
 
 module.exports = {
-  src: `${__dirname}/src`,
+  src: `${__dirname}`,
   language: 'typescript',
   schema: `${__dirname}/schema/schema.graphql`,
   persistConfig: {

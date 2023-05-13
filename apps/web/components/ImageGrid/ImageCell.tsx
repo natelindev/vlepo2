@@ -37,10 +37,10 @@ const ImageCell = (props: ImageCellProps) => {
   return (
     <BaseImageCell onClick={copyImageMarkdown} idx={idx} {...rest}>
       <BaseImage
-        layout="fixed"
         objectFit="cover"
-        width="150px"
-        height="150px"
+        width={150}
+        height={150}
+        alt={image.file.name}
         src={URL.createObjectURL(image.file) ?? ''}
       />
       <ImageOverlay>

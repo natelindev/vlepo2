@@ -14,7 +14,7 @@ export const useTilt = <T = HTMLElement>(
 ): [
   React.RefObject<HTMLElement & T>,
   {
-    onMouseMove: ({ clientX: x, clientY: y }: { clientX: number; clientY: number }) => AsyncResult<
+    onMouseMove: ({ clientX, clientY }: { clientX: number; clientY: number }) => AsyncResult<
       Controller<{
         xys: number[];
       }>
@@ -61,8 +61,8 @@ export const useTilt = <T = HTMLElement>(
   return [
     tiltRef,
     {
-      onMouseMove: ({ clientX: x, clientY: y }: { clientX: number; clientY: number }) =>
-        set.start({ xys: calc(x, y) }),
+      onMouseMove: ({ clientX, clientY }: { clientX: number; clientY: number }) =>
+        set.start({ xys: calc(clientX, clientY) }),
       onMouseLeave: () => set.start({ xys: [0, 0, 1] }),
       style: { transform: springProps.xys.to(trans) },
     },

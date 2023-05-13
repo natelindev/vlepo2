@@ -13,10 +13,10 @@ const HomeScene = () => {
 
   return (
     <Canvas dpr={[1, 2]} camera={{ position: [0, 0, -10], fov: 35 }}>
-      {/* @ts-expect-error ts infinite depth error */}
       <three.pointLight position={[10, 10, 10]} intensity={1.5} />
       <Suspense fallback={null}>
         <group
+          // eslint-disable-next-line react/no-unknown-property
           rotation={[0, Math.PI, 0]}
           onClick={(e) => {
             e.stopPropagation();
