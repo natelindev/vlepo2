@@ -29,10 +29,10 @@
   },
   "devDependencies": {
     "prettier": "2.8.8",
-    "prisma": "4.13.0",
+    "prisma": "4.14.0",
     "sort-package-json": "2.4.1",
     "ts-node": "10.9.1",
-    "turbo": "1.9.3"
+    "turbo": "1.9.4"
   },
   "packageManager": "yarn@1.22.19",
   "engines": {
