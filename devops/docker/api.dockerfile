@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:current-alpine AS base
+FROM --platform=linux/amd64 node:18-alpine AS base
 # Set working directory
 WORKDIR /app
 
