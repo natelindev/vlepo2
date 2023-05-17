@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { useCallback } from 'react';
 import { H5, ImageOverlay, useToasts } from 'ui';
 

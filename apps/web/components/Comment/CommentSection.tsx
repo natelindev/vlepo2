@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import React, { useState } from 'react';
 import { useMutation, usePagination } from 'relay-hooks';
 import { ConnectionHandler, graphql } from 'relay-runtime';

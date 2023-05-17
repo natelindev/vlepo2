@@ -1,4 +1,4 @@
-import NextImage from 'next/image';
+import NextImage from 'next/legacy/image';
 import { match } from 'ts-pattern';
 
 import styled, { x } from '@xstyled/styled-components';
